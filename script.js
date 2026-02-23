@@ -103,20 +103,20 @@ const UI = {
         cards.forEach(card => {
             const cardElement = document.createElement('div');
             // Classes Tailwind para o Card: Fundo branco, arredondado, sombra suave, hover com translação
-            cardElement.className = 'group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-700 transform hover:-translate-y-2 border border-gray-100 opacity-0 translate-y-8';
+            cardElement.className = 'group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-rose-100 transition-all duration-700 transform hover:-translate-y-1 opacity-0 translate-y-8';
             
             cardElement.innerHTML = `
                 <div class="relative overflow-hidden aspect-[4/5]">
                     <img src="${card.image}" alt="${card.title}" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.style.display='none'">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-rose-900/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
-                <div class="p-6">
-                    <h4 class="font-serif text-xl font-semibold text-brand-dark mb-2">${card.title}</h4>
-                    <p class="text-sm text-brand-gray font-light leading-relaxed">${card.description}</p>
+                <div class="p-6 bg-rose-50 border-t border-rose-100">
+                    <h4 class="font-serif text-xl font-medium text-stone-800 mb-2">${card.title}</h4>
+                    <p class="text-sm text-stone-500 font-light leading-relaxed">${card.description}</p>
                 </div>
                 ${isAdmin ? `
                 <div class="px-6 pb-6 pt-0">
-                    <button data-id="${card.id}" class="btn-delete w-full py-2 text-xs font-bold uppercase tracking-wider text-red-500 border border-red-200 rounded-lg hover:bg-red-50 transition-colors">Excluir Item</button>
+                    <button data-id="${card.id}" class="btn-delete w-full py-3 text-xs font-bold uppercase tracking-wider text-rose-500 border border-rose-200 rounded-xl hover:bg-rose-50 active:scale-95 transition-all">Excluir Item</button>
                 </div>` : ''}
             `;
             container.appendChild(cardElement);
@@ -178,7 +178,15 @@ const App = {
         const menuLinks = mobileMenu ? mobileMenu.querySelectorAll('a') : [];
 
         function toggleMenu() {
-            mobileMenu.classList.toggle('translate-x-full');
+            const isHidden = mobileMenu.classList.contains('hidden');
+            if (isHidden) {
+                mobileMenu.classList.remove('hidden');
+                // Pequeno delay para permitir a transição de opacidade
+                setTimeout(() => mobileMenu.classList.remove('opacity-0', 'pointer-events-none'), 10);
+            } else {
+                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                setTimeout(() => mobileMenu.classList.add('hidden'), 300);
+            }
         }
 
         if (mobileBtn && mobileMenu) {

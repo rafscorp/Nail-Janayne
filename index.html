@@ -11,15 +11,21 @@
             theme: {
                 extend: {
                     colors: {
-                        'brand-beige': '#f9f9f7',
-                        'brand-dark': '#1c1c1c',
-                        'brand-gray': '#4a4a4a',
-                        'brand-gold': '#d4af37',
-                        'brand-rose': '#eecfd6',
+                        rose: { 50: '#fff0f5', 100: '#ffe4e9', 200: '#fecdd6', 300: '#fda4b0', 400: '#fb7185' },
+                        stone: { 800: '#292524', 900: '#1c1917', 600: '#57534e' }
                     },
                     fontFamily: {
                         serif: ['"Playfair Display"', 'serif'],
                         sans: ['"Poppins"', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
                     }
                 }
             }
@@ -32,70 +38,72 @@
         html { scroll-behavior: smooth; }
     </style>
 </head>
-<body class="bg-brand-beige text-brand-dark font-sans antialiased selection:bg-brand-gold selection:text-white">
+<body class="bg-white text-stone-800 font-sans antialiased selection:bg-rose-200 selection:text-stone-900">
 
     <!-- Header Glassmorphism -->
-    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-brand-beige/80 backdrop-blur-md border-b border-white/20">
+    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-rose-100/80 backdrop-blur-md border-b border-rose-200">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="font-serif text-2xl font-bold tracking-wide text-brand-dark hover:text-brand-gold transition-colors">
+            <a href="#" class="font-serif text-2xl font-bold tracking-wide text-stone-800 hover:text-rose-400 transition-colors">
                 JANAYNE.
             </a>
             
             <!-- Desktop Nav -->
             <nav class="hidden md:flex space-x-8 items-center">
-                <a href="bio.html" class="text-sm font-medium hover:text-brand-gold transition-colors">Links</a>
-                <a href="#galeria" class="text-sm font-medium hover:text-brand-gold transition-colors">Portfolio</a>
-                <a href="#reviews" class="text-sm font-medium hover:text-brand-gold transition-colors">Depoimentos</a>
-                <a href="admin.html" class="text-xs uppercase tracking-widest border border-brand-dark px-4 py-2 rounded-full hover:bg-brand-dark hover:text-brand-beige transition-all">Admin</a>
+                <a href="bio.html" class="text-sm font-medium text-stone-600 hover:text-rose-400 transition-colors">Links</a>
+                <a href="#galeria" class="text-sm font-medium text-stone-600 hover:text-rose-400 transition-colors">Portfolio</a>
+                <a href="#reviews" class="text-sm font-medium text-stone-600 hover:text-rose-400 transition-colors">Depoimentos</a>
+                <a href="admin.html" class="text-xs uppercase tracking-widest border border-stone-300 px-5 py-2 rounded-full hover:bg-stone-800 hover:text-white hover:border-stone-800 transition-all active:scale-95">Admin</a>
             </nav>
 
             <!-- Mobile Menu Button -->
-            <button id="mobile-menu-btn" class="md:hidden text-2xl focus:outline-none text-brand-dark">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            <button id="mobile-menu-btn" class="md:hidden p-2 -mr-2 text-stone-800 focus:outline-none active:scale-90 transition-transform">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path></svg>
             </button>
         </div>
     </header>
 
     <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu" class="fixed inset-0 z-40 bg-brand-beige/95 backdrop-blur-xl transform translate-x-full transition-transform duration-300 flex flex-col justify-center items-center space-y-8 md:hidden">
-        <button id="close-menu-btn" class="absolute top-6 right-6 text-3xl text-brand-dark">&times;</button>
-        <a href="bio.html" class="font-serif text-3xl text-brand-dark hover:text-brand-gold">Links</a>
-        <a href="#galeria" class="font-serif text-3xl text-brand-dark hover:text-brand-gold">Portfolio</a>
-        <a href="#reviews" class="font-serif text-3xl text-brand-dark hover:text-brand-gold">Depoimentos</a>
-        <a href="admin.html" class="text-sm uppercase tracking-widest border border-brand-dark px-6 py-3 rounded-full">Área Admin</a>
+    <div id="mobile-menu" class="fixed inset-0 z-50 bg-white/95 backdrop-blur-xl transition-all duration-300 opacity-0 pointer-events-none hidden flex flex-col justify-center items-center space-y-8 md:hidden">
+        <button id="close-menu-btn" class="absolute top-6 right-6 p-4 text-stone-800 active:scale-90 transition-transform">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <a href="bio.html" class="font-serif text-4xl text-stone-800 hover:text-rose-400 transition-colors">Links</a>
+        <a href="#galeria" class="font-serif text-4xl text-stone-800 hover:text-rose-400 transition-colors">Portfolio</a>
+        <a href="#reviews" class="font-serif text-4xl text-stone-800 hover:text-rose-400 transition-colors">Depoimentos</a>
+        <a href="admin.html" class="text-sm uppercase tracking-widest border border-stone-300 px-8 py-3 rounded-full mt-4 active:scale-95 transition-transform">Área Admin</a>
     </div>
 
     <!-- Hero Section -->
-    <section class="relative pt-32 pb-20 px-6 md:pt-48 md:pb-32 overflow-hidden">
+    <section class="relative pt-32 pb-20 px-6 md:pt-40 md:pb-32 overflow-hidden bg-rose-50">
         <div class="max-w-4xl mx-auto text-center relative z-10">
-            <span class="block text-brand-gold text-sm font-bold tracking-[0.3em] uppercase mb-4 animate-fade-in">Nail Designer & Artist</span>
-            <h1 class="font-serif text-5xl md:text-7xl text-brand-dark leading-tight mb-6">
-                Arte & Design <br> <span class="italic text-brand-gray">para suas mãos.</span>
+            <span class="block text-rose-400 text-xs font-bold tracking-[0.3em] uppercase mb-6 opacity-0 animate-fade-in-up">Nail Designer & Artist</span>
+            <h1 class="font-serif text-5xl md:text-7xl text-stone-800 leading-tight mb-6 opacity-0 animate-fade-in-up" style="animation-delay: 0.2s;">
+                Arte & Design <br> <span class="italic text-stone-600">para suas mãos.</span>
             </h1>
-            <p class="text-brand-gray text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light">
+            <p class="text-stone-600 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light leading-relaxed opacity-0 animate-fade-in-up" style="animation-delay: 0.4s;">
                 Transformando unhas em obras de arte exclusivas. Onde a precisão técnica encontra a sofisticação minimalista.
             </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="https://wa.me/5561982412536?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20um%20hor%C3%A1rio." class="bg-brand-dark text-brand-beige px-8 py-4 rounded-full font-medium shadow-lg hover:bg-brand-gold hover:shadow-xl transition-all transform hover:-translate-y-1">
+            <div class="flex flex-col sm:flex-row justify-center gap-4 opacity-0 animate-fade-in-up" style="animation-delay: 0.6s;">
+                <a href="https://wa.me/5561982412536?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20um%20hor%C3%A1rio." class="bg-rose-300 text-stone-900 px-8 py-4 rounded-full font-medium shadow-md shadow-rose-200 hover:bg-rose-400 hover:shadow-lg transition-all active:scale-95">
                     Agendar Horário
                 </a>
-                <a href="#galeria" class="bg-white text-brand-dark border border-gray-200 px-8 py-4 rounded-full font-medium shadow-sm hover:bg-gray-50 transition-all">
+                <a href="#galeria" class="bg-white text-stone-800 border border-rose-100 px-8 py-4 rounded-full font-medium shadow-sm hover:bg-rose-50 transition-all active:scale-95">
                     Ver Portfolio
                 </a>
             </div>
         </div>
         <!-- Decorative Background Elements -->
-        <div class="absolute top-0 left-0 w-64 h-64 bg-brand-rose/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
-        <div class="absolute bottom-0 right-0 w-96 h-96 bg-brand-gold/10 rounded-full blur-3xl translate-x-1/3 translate-y-1/3 pointer-events-none"></div>
+        <div class="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-60"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-rose-200 rounded-full blur-3xl translate-x-1/3 translate-y-1/3 pointer-events-none opacity-30"></div>
     </section>
 
     <main class="max-w-7xl mx-auto px-6 pb-24">
         
         <!-- Galeria Grid -->
         <section id="galeria" class="py-12">
-            <div class="flex items-end justify-between mb-12 border-b border-brand-dark/10 pb-4">
-                <h3 class="font-serif text-3xl md:text-4xl text-brand-dark">Portfolio Selecionado</h3>
-                <span class="hidden md:block text-xs font-bold tracking-widest text-brand-gold uppercase">Últimos Trabalhos</span>
+            <div class="flex items-end justify-between mb-12 border-b border-rose-100 pb-4">
+                <h3 class="font-serif text-3xl md:text-4xl text-stone-800">Portfolio Selecionado</h3>
+                <span class="hidden md:block text-xs font-bold tracking-widest text-rose-400 uppercase">Últimos Trabalhos</span>
             </div>
             
             <div id="cards-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
@@ -104,36 +112,36 @@
         </section>
 
         <!-- Depoimentos Estáticos (Luxo) -->
-        <section id="reviews" class="py-20 mt-12 border-t border-brand-dark/5">
-            <h3 class="font-serif text-3xl text-center mb-16 text-brand-dark">O que dizem minhas clientes</h3>
+        <section id="reviews" class="py-20 mt-12 border-t border-rose-50">
+            <h3 class="font-serif text-3xl text-center mb-16 text-stone-800">O que dizem minhas clientes</h3>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Review 1 -->
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                    <div class="flex text-brand-gold mb-4">★★★★★</div>
-                    <p class="text-brand-gray text-sm leading-relaxed mb-6 italic">"Simplesmente impecável. A Janayne tem uma mão super leve e o acabamento é de outro mundo. O ambiente é super relaxante."</p>
-                    <div class="font-serif font-bold text-brand-dark">Mariana Costa</div>
+                <div class="bg-rose-50/50 p-8 rounded-2xl border border-rose-100 hover:shadow-sm transition-shadow">
+                    <div class="flex text-rose-300 mb-4 text-lg">★★★★★</div>
+                    <p class="text-stone-600 text-sm leading-relaxed mb-6 italic">"Simplesmente impecável. A Janayne tem uma mão super leve e o acabamento é de outro mundo. O ambiente é super relaxante."</p>
+                    <div class="font-serif font-bold text-stone-800">Mariana Costa</div>
                 </div>
                 <!-- Review 2 -->
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow transform md:-translate-y-4">
-                    <div class="flex text-brand-gold mb-4">★★★★★</div>
-                    <p class="text-brand-gray text-sm leading-relaxed mb-6 italic">"Faço minhas unhas há 2 anos e não troco por nada. A durabilidade do gel é incrível e as artes são sempre exclusivas."</p>
-                    <div class="font-serif font-bold text-brand-dark">Fernanda Silva</div>
+                <div class="bg-rose-50/50 p-8 rounded-2xl border border-rose-100 hover:shadow-sm transition-shadow transform md:-translate-y-4">
+                    <div class="flex text-rose-300 mb-4 text-lg">★★★★★</div>
+                    <p class="text-stone-600 text-sm leading-relaxed mb-6 italic">"Faço minhas unhas há 2 anos e não troco por nada. A durabilidade do gel é incrível e as artes são sempre exclusivas."</p>
+                    <div class="font-serif font-bold text-stone-800">Fernanda Silva</div>
                 </div>
                 <!-- Review 3 -->
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                    <div class="flex text-brand-gold mb-4">★★★★★</div>
-                    <p class="text-brand-gray text-sm leading-relaxed mb-6 italic">"Profissionalismo e elegância definem. Amei o atendimento e o resultado final ficou super natural."</p>
-                    <div class="font-serif font-bold text-brand-dark">Camila Oliveira</div>
+                <div class="bg-rose-50/50 p-8 rounded-2xl border border-rose-100 hover:shadow-sm transition-shadow">
+                    <div class="flex text-rose-300 mb-4 text-lg">★★★★★</div>
+                    <p class="text-stone-600 text-sm leading-relaxed mb-6 italic">"Profissionalismo e elegância definem. Amei o atendimento e o resultado final ficou super natural."</p>
+                    <div class="font-serif font-bold text-stone-800">Camila Oliveira</div>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <footer class="bg-brand-dark text-brand-beige py-12 text-center">
-        <h2 class="font-serif text-2xl mb-4">Janayne Studio</h2>
-        <p class="text-white/60 text-xs tracking-widest uppercase mb-8">Designed for the Future</p>
-        <p class="text-white/40 text-xs">&copy; 2024 Todos os direitos reservados.</p>
+    <footer class="bg-stone-900 text-rose-50 py-12 text-center">
+        <h2 class="font-serif text-2xl mb-4 text-rose-200">Janayne Studio</h2>
+        <p class="text-white/50 text-xs tracking-widest uppercase mb-8">Designed for Beauty</p>
+        <p class="text-white/30 text-xs">&copy; 2024 Todos os direitos reservados.</p>
     </footer>
 
     <script src="script.js"></script>

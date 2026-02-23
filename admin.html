@@ -11,11 +11,8 @@
             theme: {
                 extend: {
                     colors: {
-                        'brand-beige': '#f9f9f7',
-                        'brand-dark': '#1c1c1c',
-                        'brand-gray': '#4a4a4a',
-                        'brand-gold': '#d4af37',
-                        'brand-rose': '#eecfd6',
+                        rose: { 50: '#fff0f5', 100: '#ffe4e9', 200: '#fecdd6', 300: '#fda4b0', 400: '#fb7185' },
+                        stone: { 800: '#292524', 900: '#1c1917', 600: '#57534e' }
                     },
                     fontFamily: {
                         serif: ['"Playfair Display"', 'serif'],
@@ -29,12 +26,12 @@
         * { -webkit-tap-highlight-color: transparent; }
     </style>
 </head>
-<body class="bg-gray-50 text-brand-dark font-sans antialiased">
+<body class="bg-rose-50 text-stone-800 font-sans antialiased">
 
-    <header class="bg-brand-dark text-brand-beige py-6 shadow-md">
+    <header class="bg-white text-stone-800 py-6 shadow-sm border-b border-rose-100">
         <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
             <h1 class="font-serif text-xl tracking-wide">Painel Administrativo</h1>
-            <a href="index.html" class="text-sm font-medium hover:text-brand-gold transition-colors flex items-center gap-2">
+            <a href="index.html" class="text-sm font-medium hover:text-rose-400 transition-colors flex items-center gap-2">
                 <span>&larr;</span> Voltar ao Site
             </a>
         </div>
@@ -43,29 +40,29 @@
     <main class="max-w-7xl mx-auto px-6 py-12">
         
         <!-- Seção de Adicionar -->
-        <section class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 mb-12 max-w-2xl mx-auto">
-            <h3 class="font-serif text-2xl mb-6 text-brand-dark border-b pb-2">Adicionar Novo Trabalho</h3>
+        <section class="bg-white rounded-2xl shadow-sm border border-rose-100 p-8 mb-12 max-w-2xl mx-auto">
+            <h3 class="font-serif text-2xl mb-6 text-stone-800 border-b border-rose-50 pb-2">Adicionar Novo Trabalho</h3>
             <form id="admin-form" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-bold uppercase text-brand-gray mb-1">URL da Imagem</label>
+                    <label class="block text-xs font-bold uppercase text-stone-500 mb-1">URL da Imagem</label>
                     <input type="text" id="img-url" placeholder="ex: assets/foto1.jpg" required
-                        class="w-full bg-brand-beige border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-rose focus:border-transparent transition-all">
+                        class="w-full bg-rose-50 border border-rose-200 rounded-lg px-4 py-3 text-sm text-stone-800 focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent transition-all">
                 </div>
                 
                 <div>
-                    <label class="block text-xs font-bold uppercase text-brand-gray mb-1">Título</label>
+                    <label class="block text-xs font-bold uppercase text-stone-500 mb-1">Título</label>
                     <input type="text" id="card-title" placeholder="ex: Nail Art Minimalista" required
-                        class="w-full bg-brand-beige border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-rose focus:border-transparent transition-all">
+                        class="w-full bg-rose-50 border border-rose-200 rounded-lg px-4 py-3 text-sm text-stone-800 focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent transition-all">
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold uppercase text-brand-gray mb-1">Descrição</label>
+                    <label class="block text-xs font-bold uppercase text-stone-500 mb-1">Descrição</label>
                     <textarea id="card-desc" placeholder="Breve descrição do serviço..." required rows="3"
-                        class="w-full bg-brand-beige border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-rose focus:border-transparent transition-all"></textarea>
+                        class="w-full bg-rose-50 border border-rose-200 rounded-lg px-4 py-3 text-sm text-stone-800 focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent transition-all"></textarea>
                 </div>
 
                 <button type="submit" 
-                    class="w-full bg-brand-dark text-white font-medium py-3 rounded-xl shadow-lg hover:bg-brand-gold transition-colors mt-4">
+                    class="w-full bg-rose-300 text-stone-900 font-medium py-3 rounded-xl shadow-md hover:bg-rose-400 active:scale-95 transition-all mt-4">
                     Adicionar ao Portfolio
                 </button>
             </form>
@@ -74,8 +71,8 @@
         <!-- Lista de Cards -->
         <section>
             <div class="flex items-center justify-between mb-8">
-                <h3 class="font-serif text-2xl text-brand-dark">Gerenciar Portfolio</h3>
-                <span class="text-xs text-brand-gray bg-brand-beige px-3 py-1 rounded-full">Clique em "Excluir" para remover</span>
+                <h3 class="font-serif text-2xl text-stone-800">Gerenciar Portfolio</h3>
+                <span class="text-xs text-stone-500 bg-white border border-rose-100 px-3 py-1 rounded-full">Clique em "Excluir" para remover</span>
             </div>
             
             <div id="admin-cards-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
