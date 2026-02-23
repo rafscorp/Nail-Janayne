@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Janayne Studio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="admin-body">
+
+    <header>
+        <div class="container">
+            <h1>Painel Administrativo</h1>
+            <nav>
+                <a href="index.html">Voltar para o Site</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="admin-panel">
+            <h3>Adicionar Novo Trabalho</h3>
+            <form id="admin-form">
+                <input type="text" id="img-url" placeholder="URL da Imagem (ex: https://site.com/foto.jpg)" required>
+                <input type="text" id="card-title" placeholder="Título do Serviço" required>
+                <textarea id="card-desc" placeholder="Descrição do serviço..." required></textarea>
+                <button type="submit">Adicionar Card</button>
+            </form>
+        </section>
+
+        <section>
+            <h3>Gerenciar Trabalhos Existentes</h3>
+            <div id="admin-cards-list" class="grid-cards">
+                <!-- Lista de cards para editar/excluir -->
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Janayne Studio - Nail Designer</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>JANAYNE.</h1>
+            <button class="menu-toggle" id="mobile-menu-btn" aria-label="Abrir Menu">
+                ☰
+            </button>
+            <nav id="nav-menu">
+                <a href="bio.html">Links</a>
+                <a href="#galeria">Portfolio</a>
+                <a href="#comentarios">Reviews</a>
+                <a href="admin.html" style="color: var(--accent);">Admin</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2>ARTE &<br>DESIGN.</h2>
+            <p>Transformando unhas em obras de arte exclusivas. Onde a precisão encontra a sofisticação.</p>
+            <a href="#galeria" class="btn-cta">Explorar Portfolio</a>
+        </div>
+    </section>
+
+    <main class="container">
+        <section id="galeria">
+            <h3 class="glow-text" style="margin-bottom: 2rem; font-size: 2rem;">PORTFOLIO SELECIONADO</h3>
+            <div id="cards-container" class="grid-cards">
+                <!-- Os cards serão inseridos aqui via JavaScript -->
+            </div>
+        </section>
+
+        <section id="comentarios" style="margin-top: 5rem;">
+            <h3 class="glow-text" style="margin-bottom: 2rem; font-size: 2rem;">FEEDBACK</h3>
+            <div id="comments-list"></div>
+            
+            <div class="glass" style="padding: 2rem; border-radius: var(--radius); margin-top: 2rem;">
+                <form id="comment-form">
+                    <input type="text" id="comment-name" placeholder="Seu nome" required>
+                    <textarea id="comment-text" placeholder="Compartilhe sua experiência..." required></textarea>
+                    <button type="submit">Publicar</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer style="margin-top: 5rem; padding: 2rem; text-align: center; color: #666; font-size: 0.8rem;">
+        <p>JANAYNE STUDIO &copy; 2024. DESIGNED FOR THE FUTURE.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
