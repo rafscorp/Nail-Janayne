@@ -3,59 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Janayne Studio - Nail Designer</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Janayne Studio | Nail Art & Design</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-beige': '#f9f9f7',
+                        'brand-dark': '#1c1c1c',
+                        'brand-gray': '#4a4a4a',
+                        'brand-gold': '#d4af37',
+                        'brand-rose': '#eecfd6',
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Poppins"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Remove o highlight azul no mobile */
+        * { -webkit-tap-highlight-color: transparent; }
+        /* Scroll suave */
+        html { scroll-behavior: smooth; }
+    </style>
 </head>
-<body>
+<body class="bg-brand-beige text-brand-dark font-sans antialiased selection:bg-brand-gold selection:text-white">
 
-    <header>
-        <div class="container">
-            <h1>JANAYNE.</h1>
-            <button class="menu-toggle" id="mobile-menu-btn" aria-label="Abrir Menu">
-                ☰
-            </button>
-            <nav id="nav-menu">
-                <a href="bio.html">Links</a>
-                <a href="#galeria">Portfolio</a>
-                <a href="#comentarios">Reviews</a>
-                <a href="admin.html" style="color: var(--accent);">Admin</a>
+    <!-- Header Glassmorphism -->
+    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-brand-beige/80 backdrop-blur-md border-b border-white/20">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="font-serif text-2xl font-bold tracking-wide text-brand-dark hover:text-brand-gold transition-colors">
+                JANAYNE.
+            </a>
+            
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex space-x-8 items-center">
+                <a href="bio.html" class="text-sm font-medium hover:text-brand-gold transition-colors">Links</a>
+                <a href="#galeria" class="text-sm font-medium hover:text-brand-gold transition-colors">Portfolio</a>
+                <a href="#reviews" class="text-sm font-medium hover:text-brand-gold transition-colors">Depoimentos</a>
+                <a href="admin.html" class="text-xs uppercase tracking-widest border border-brand-dark px-4 py-2 rounded-full hover:bg-brand-dark hover:text-brand-beige transition-all">Admin</a>
             </nav>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-2xl focus:outline-none text-brand-dark">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
         </div>
     </header>
 
-    <section class="hero">
-        <div class="container">
-            <h2>ARTE &<br>DESIGN.</h2>
-            <p>Transformando unhas em obras de arte exclusivas. Onde a precisão encontra a sofisticação.</p>
-            <a href="#galeria" class="btn-cta">Explorar Portfolio</a>
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-brand-beige/95 backdrop-blur-xl transform translate-x-full transition-transform duration-300 flex flex-col justify-center items-center space-y-8 md:hidden">
+        <button id="close-menu-btn" class="absolute top-6 right-6 text-3xl text-brand-dark">&times;</button>
+        <a href="bio.html" class="font-serif text-3xl text-brand-dark hover:text-brand-gold">Links</a>
+        <a href="#galeria" class="font-serif text-3xl text-brand-dark hover:text-brand-gold">Portfolio</a>
+        <a href="#reviews" class="font-serif text-3xl text-brand-dark hover:text-brand-gold">Depoimentos</a>
+        <a href="admin.html" class="text-sm uppercase tracking-widest border border-brand-dark px-6 py-3 rounded-full">Área Admin</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 px-6 md:pt-48 md:pb-32 overflow-hidden">
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <span class="block text-brand-gold text-sm font-bold tracking-[0.3em] uppercase mb-4 animate-fade-in">Nail Designer & Artist</span>
+            <h1 class="font-serif text-5xl md:text-7xl text-brand-dark leading-tight mb-6">
+                Arte & Design <br> <span class="italic text-brand-gray">para suas mãos.</span>
+            </h1>
+            <p class="text-brand-gray text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light">
+                Transformando unhas em obras de arte exclusivas. Onde a precisão técnica encontra a sofisticação minimalista.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="https://wa.me/5561982412536?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20um%20hor%C3%A1rio." class="bg-brand-dark text-brand-beige px-8 py-4 rounded-full font-medium shadow-lg hover:bg-brand-gold hover:shadow-xl transition-all transform hover:-translate-y-1">
+                    Agendar Horário
+                </a>
+                <a href="#galeria" class="bg-white text-brand-dark border border-gray-200 px-8 py-4 rounded-full font-medium shadow-sm hover:bg-gray-50 transition-all">
+                    Ver Portfolio
+                </a>
+            </div>
         </div>
+        <!-- Decorative Background Elements -->
+        <div class="absolute top-0 left-0 w-64 h-64 bg-brand-rose/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-brand-gold/10 rounded-full blur-3xl translate-x-1/3 translate-y-1/3 pointer-events-none"></div>
     </section>
 
-    <main class="container">
-        <section id="galeria">
-            <h3 class="glow-text" style="margin-bottom: 2rem; font-size: 2rem;">PORTFOLIO SELECIONADO</h3>
-            <div id="cards-container" class="grid-cards">
+    <main class="max-w-7xl mx-auto px-6 pb-24">
+        
+        <!-- Galeria Grid -->
+        <section id="galeria" class="py-12">
+            <div class="flex items-end justify-between mb-12 border-b border-brand-dark/10 pb-4">
+                <h3 class="font-serif text-3xl md:text-4xl text-brand-dark">Portfolio Selecionado</h3>
+                <span class="hidden md:block text-xs font-bold tracking-widest text-brand-gold uppercase">Últimos Trabalhos</span>
+            </div>
+            
+            <div id="cards-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                 <!-- Os cards serão inseridos aqui via JavaScript -->
             </div>
         </section>
 
-        <section id="comentarios" style="margin-top: 5rem;">
-            <h3 class="glow-text" style="margin-bottom: 2rem; font-size: 2rem;">FEEDBACK</h3>
-            <div id="comments-list"></div>
-            
-            <div class="glass" style="padding: 2rem; border-radius: var(--radius); margin-top: 2rem;">
-                <form id="comment-form">
-                    <input type="text" id="comment-name" placeholder="Seu nome" required>
-                    <textarea id="comment-text" placeholder="Compartilhe sua experiência..." required></textarea>
-                    <button type="submit">Publicar</button>
-                </form>
+        <!-- Depoimentos Estáticos (Luxo) -->
+        <section id="reviews" class="py-20 mt-12 border-t border-brand-dark/5">
+            <h3 class="font-serif text-3xl text-center mb-16 text-brand-dark">O que dizem minhas clientes</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Review 1 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                    <div class="flex text-brand-gold mb-4">★★★★★</div>
+                    <p class="text-brand-gray text-sm leading-relaxed mb-6 italic">"Simplesmente impecável. A Janayne tem uma mão super leve e o acabamento é de outro mundo. O ambiente é super relaxante."</p>
+                    <div class="font-serif font-bold text-brand-dark">Mariana Costa</div>
+                </div>
+                <!-- Review 2 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow transform md:-translate-y-4">
+                    <div class="flex text-brand-gold mb-4">★★★★★</div>
+                    <p class="text-brand-gray text-sm leading-relaxed mb-6 italic">"Faço minhas unhas há 2 anos e não troco por nada. A durabilidade do gel é incrível e as artes são sempre exclusivas."</p>
+                    <div class="font-serif font-bold text-brand-dark">Fernanda Silva</div>
+                </div>
+                <!-- Review 3 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                    <div class="flex text-brand-gold mb-4">★★★★★</div>
+                    <p class="text-brand-gray text-sm leading-relaxed mb-6 italic">"Profissionalismo e elegância definem. Amei o atendimento e o resultado final ficou super natural."</p>
+                    <div class="font-serif font-bold text-brand-dark">Camila Oliveira</div>
+                </div>
             </div>
         </section>
+
     </main>
 
-    <footer style="margin-top: 5rem; padding: 2rem; text-align: center; color: #666; font-size: 0.8rem;">
-        <p>JANAYNE STUDIO &copy; 2024. DESIGNED FOR THE FUTURE.</p>
+    <footer class="bg-brand-dark text-brand-beige py-12 text-center">
+        <h2 class="font-serif text-2xl mb-4">Janayne Studio</h2>
+        <p class="text-white/60 text-xs tracking-widest uppercase mb-8">Designed for the Future</p>
+        <p class="text-white/40 text-xs">&copy; 2024 Todos os direitos reservados.</p>
     </footer>
 
     <script src="script.js"></script>

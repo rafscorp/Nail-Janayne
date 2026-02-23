@@ -4,34 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Janayne Studio</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-beige': '#f9f9f7',
+                        'brand-dark': '#1c1c1c',
+                        'brand-gray': '#4a4a4a',
+                        'brand-gold': '#d4af37',
+                        'brand-rose': '#eecfd6',
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Poppins"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { -webkit-tap-highlight-color: transparent; }
+    </style>
 </head>
-<body class="admin-body">
+<body class="bg-gray-50 text-brand-dark font-sans antialiased">
 
-    <header>
-        <div class="container">
-            <h1>Painel Administrativo</h1>
-            <nav>
-                <a href="index.html">Voltar para o Site</a>
-            </nav>
+    <header class="bg-brand-dark text-brand-beige py-6 shadow-md">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <h1 class="font-serif text-xl tracking-wide">Painel Administrativo</h1>
+            <a href="index.html" class="text-sm font-medium hover:text-brand-gold transition-colors flex items-center gap-2">
+                <span>&larr;</span> Voltar ao Site
+            </a>
         </div>
     </header>
 
-    <main class="container">
-        <section class="admin-panel">
-            <h3>Adicionar Novo Trabalho</h3>
-            <form id="admin-form">
-                <input type="text" id="img-url" placeholder="URL da Imagem (ex: https://site.com/foto.jpg)" required>
-                <input type="text" id="card-title" placeholder="Título do Serviço" required>
-                <textarea id="card-desc" placeholder="Descrição do serviço..." required></textarea>
-                <button type="submit">Adicionar Card</button>
+    <main class="max-w-7xl mx-auto px-6 py-12">
+        
+        <!-- Seção de Adicionar -->
+        <section class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 mb-12 max-w-2xl mx-auto">
+            <h3 class="font-serif text-2xl mb-6 text-brand-dark border-b pb-2">Adicionar Novo Trabalho</h3>
+            <form id="admin-form" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-brand-gray mb-1">URL da Imagem</label>
+                    <input type="text" id="img-url" placeholder="ex: assets/foto1.jpg" required
+                        class="w-full bg-brand-beige border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-rose focus:border-transparent transition-all">
+                </div>
+                
+                <div>
+                    <label class="block text-xs font-bold uppercase text-brand-gray mb-1">Título</label>
+                    <input type="text" id="card-title" placeholder="ex: Nail Art Minimalista" required
+                        class="w-full bg-brand-beige border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-rose focus:border-transparent transition-all">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase text-brand-gray mb-1">Descrição</label>
+                    <textarea id="card-desc" placeholder="Breve descrição do serviço..." required rows="3"
+                        class="w-full bg-brand-beige border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-rose focus:border-transparent transition-all"></textarea>
+                </div>
+
+                <button type="submit" 
+                    class="w-full bg-brand-dark text-white font-medium py-3 rounded-xl shadow-lg hover:bg-brand-gold transition-colors mt-4">
+                    Adicionar ao Portfolio
+                </button>
             </form>
         </section>
 
+        <!-- Lista de Cards -->
         <section>
-            <h3>Gerenciar Trabalhos Existentes</h3>
-            <div id="admin-cards-list" class="grid-cards">
+            <div class="flex items-center justify-between mb-8">
+                <h3 class="font-serif text-2xl text-brand-dark">Gerenciar Portfolio</h3>
+                <span class="text-xs text-brand-gray bg-brand-beige px-3 py-1 rounded-full">Clique em "Excluir" para remover</span>
+            </div>
+            
+            <div id="admin-cards-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                 <!-- Lista de cards para editar/excluir -->
             </div>
         </section>

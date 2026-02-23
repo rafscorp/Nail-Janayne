@@ -4,8 +4,7 @@
  */
 const Storage = {
     keys: {
-        cards: 'janayneCards',
-        comments: 'janayneComments'
+        cards: 'janayneCards'
     },
 
     init() {
@@ -51,10 +50,6 @@ const Storage = {
         // FORÇA a atualização para usar as novas fotos da pasta assets
         // Isso garante que o script pegue as fotos renomeadas pelo script bash
         localStorage.setItem(this.keys.cards, JSON.stringify(initialData));
-        
-        if (!localStorage.getItem(this.keys.comments)) {
-            localStorage.setItem(this.keys.comments, JSON.stringify([]));
-        }
     },
 
     get(key) {
@@ -83,6 +78,21 @@ const Storage = {
  * Responsável por manipular o DOM
  */
 const UI = {
+    observer: null,
+
+    initObserver() {
+        this.observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.remove('opacity-0', 'translate-y-8');
+                    // Restaura a velocidade para 300ms após a animação de entrada (700ms) para o hover ficar ágil
+                    setTimeout(() => entry.target.classList.replace('duration-700', 'duration-300'), 700);
+                    this.observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+    },
+
     renderCards(isAdmin = false) {
         const container = isAdmin ? document.getElementById('admin-cards-list') : document.getElementById('cards-container');
         if (!container) return;
@@ -92,30 +102,27 @@ const UI = {
 
         cards.forEach(card => {
             const cardElement = document.createElement('div');
-            cardElement.className = 'card';
+            // Classes Tailwind para o Card: Fundo branco, arredondado, sombra suave, hover com translação
+            cardElement.className = 'group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-700 transform hover:-translate-y-2 border border-gray-100 opacity-0 translate-y-8';
+            
             cardElement.innerHTML = `
-                <div style="overflow: hidden;"><img src="${card.image}" alt="${card.title}" loading="lazy" onerror="this.style.display='none'"></div>
-                <div class="card-content">
-                    <h4>${card.title}</h4>
-                    <p>${card.description}</p>
+                <div class="relative overflow-hidden aspect-[4/5]">
+                    <img src="${card.image}" alt="${card.title}" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.style.display='none'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
-                ${isAdmin ? `<div class="card-actions"><button data-id="${card.id}" class="btn-delete">Excluir</button></div>` : ''}
+                <div class="p-6">
+                    <h4 class="font-serif text-xl font-semibold text-brand-dark mb-2">${card.title}</h4>
+                    <p class="text-sm text-brand-gray font-light leading-relaxed">${card.description}</p>
+                </div>
+                ${isAdmin ? `
+                <div class="px-6 pb-6 pt-0">
+                    <button data-id="${card.id}" class="btn-delete w-full py-2 text-xs font-bold uppercase tracking-wider text-red-500 border border-red-200 rounded-lg hover:bg-red-50 transition-colors">Excluir Item</button>
+                </div>` : ''}
             `;
             container.appendChild(cardElement);
-        });
-    },
 
-    renderComments() {
-        const container = document.getElementById('comments-list');
-        if (!container) return;
-        
-        const comments = Storage.get(Storage.keys.comments);
-        container.innerHTML = comments.map(c => 
-            `<div class="glass" style="padding: 1rem; margin-bottom: 1rem; border-radius: 12px; border-left: 2px solid var(--accent);">
-                <strong style="color: var(--accent); display:block; margin-bottom:5px;">${c.name}</strong> 
-                <span style="color: var(--text-main);">${c.text}</span>
-            </div>`
-        ).join('');
+            if (this.observer) this.observer.observe(cardElement);
+        });
     }
 };
 
@@ -126,10 +133,10 @@ const UI = {
 const App = {
     init() {
         Storage.init();
+        UI.initObserver();
         
         const isAdminPage = !!document.getElementById('admin-cards-list');
         UI.renderCards(isAdminPage);
-        UI.renderComments();
 
         this.bindEvents(isAdminPage);
     },
@@ -147,7 +154,7 @@ const App = {
                     description: document.getElementById('card-desc').value
                 };
                 Storage.add(Storage.keys.cards, newCard);
-                alert('Trabalho adicionado com luxo!');
+                alert('Trabalho adicionado com sucesso!');
                 adminForm.reset();
                 UI.renderCards(true);
             });
@@ -156,7 +163,7 @@ const App = {
             document.getElementById('admin-cards-list').addEventListener('click', (e) => {
                 if (e.target.classList.contains('btn-delete')) {
                     const id = parseInt(e.target.getAttribute('data-id'));
-                    if(confirm('Deseja remover este item exclusivo?')) {
+                    if(confirm('Tem certeza que deseja remover este item?')) {
                         Storage.remove(Storage.keys.cards, id);
                         UI.renderCards(true);
                     }
@@ -164,27 +171,23 @@ const App = {
             });
         }
 
-        // Form de Comentários
-        const commentForm = document.getElementById('comment-form');
-        if (commentForm) {
-            commentForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const newComment = {
-                    name: document.getElementById('comment-name').value,
-                    text: document.getElementById('comment-text').value
-                };
-                Storage.add(Storage.keys.comments, newComment);
-                UI.renderComments();
-                commentForm.reset();
-            });
-        }
-
         // Mobile Menu Toggle
         const mobileBtn = document.getElementById('mobile-menu-btn');
-        const navMenu = document.getElementById('nav-menu');
-        if (mobileBtn && navMenu) {
-            mobileBtn.addEventListener('click', () => {
-                navMenu.classList.toggle('active');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuLinks = mobileMenu ? mobileMenu.querySelectorAll('a') : [];
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('translate-x-full');
+        }
+
+        if (mobileBtn && mobileMenu) {
+            mobileBtn.addEventListener('click', toggleMenu);
+            if(closeMenuBtn) closeMenuBtn.addEventListener('click', toggleMenu);
+            
+            // Fechar menu ao clicar em um link
+            menuLinks.forEach(link => {
+                link.addEventListener('click', toggleMenu);
             });
         }
     }
