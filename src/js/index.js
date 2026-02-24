@@ -5,15 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Os inits de storage e theme já são chamados em utils.js
     uiManager.initObserver();
 
-    const cardsContainer = document.getElementById('cards-container');
-    let allCards = [];
-
-    // Carrega os cards iniciais
-    if (cardsContainer) {
-        allCards = storageManager.getCards();
-        uiManager.renderCards(cardsContainer, allCards, false);
-    }
-    
     // Otimização de Scroll (Debounce/Throttling via rAF)
     const heroBg = document.getElementById('hero-parallax-img');
     const header = document.querySelector('header');
@@ -54,21 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1000);
     }
 
-    // Filtros de Categoria
-    const filterContainer = document.getElementById('portfolio-filters');
-    filterContainer?.addEventListener('click', (e) => {
-        const button = e.target.closest('.filter-btn');
-        if (button) {
-            document.querySelectorAll('.filter-btn.active-filter').forEach(btn => btn.classList.remove('active-filter'));
-            button.classList.add('active-filter');
-            
-            const category = button.getAttribute('data-category');
-            const filteredCards = (category === 'all') ? allCards : allCards.filter(card => card.category === category);
-            
-            uiManager.renderCards(cardsContainer, filteredCards, false);
-        }
-    });
-
     // Mobile Menu
     const mobileBtn = document.getElementById('mobile-menu-btn');
     const closeMenuBtn = document.getElementById('close-menu-btn');
@@ -98,13 +74,4 @@ document.addEventListener('DOMContentLoaded', () => {
             toggleMenu();
         }
     }));
-
-    // Modal
-    document.getElementById('modal-close')?.addEventListener('click', () => uiManager.closeModal());
-    document.getElementById('modal-backdrop')?.addEventListener('click', () => uiManager.closeModal());
-    document.addEventListener('keydown', (e) => { 
-        if (e.key === 'Escape' && !document.getElementById('image-modal').classList.contains('hidden')) {
-            uiManager.closeModal();
-        }
-    });
 });

@@ -65,35 +65,59 @@ document.addEventListener('DOMContentLoaded', () => {
     // Módulo Principal da Aplicação Admin
     const AdminApp = {
         _localState: {
-            cardImageBase64: '',
-            heroImageBase64: ''
+            heroImageBase64: '',
+            itemToDeleteId: null
         },
 
         init() {
             uiManager.initObserver();
-            this.loadExistingCards();
             this.loadCurrentSettings();
+            this.renderPortfolioList();
             this.bindEvents();
         },
         
-        loadExistingCards() {
-            const container = document.getElementById('admin-cards-list');
-            const cards = storageManager.getCards();
-            uiManager.renderCards(container, cards, true);
-        },
-
         loadCurrentSettings() {
             const settings = storageManager.getSettings();
             if (settings.heroImage) document.getElementById('hero-preview').src = settings.heroImage;
             if (settings.primaryColor) document.getElementById('color-primary').value = settings.primaryColor;
             if (settings.lightColor) document.getElementById('color-light').value = settings.lightColor;
             if (settings.textColor) document.getElementById('color-text').value = settings.textColor;
+            if (settings.salonName) document.getElementById('salon-name').value = settings.salonName;
+            if (settings.whatsappLink) document.getElementById('whatsapp-link').value = settings.whatsappLink;
+        },
+
+        renderPortfolioList() {
+            const listContainer = document.getElementById('admin-cards-list');
+            if (!listContainer) return;
+
+            const items = storageManager.getPortfolio();
+            
+            if (items.length === 0) {
+                listContainer.innerHTML = '<p class="text-stone-500 col-span-full text-center py-8">Nenhum trabalho cadastrado.</p>';
+                return;
+            }
+
+            listContainer.innerHTML = items.map(item => `
+                <div class="bg-white rounded-xl shadow-sm border border-rose-100 overflow-hidden group">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="${item.image}" class="w-full h-full object-cover transition-transform group-hover:scale-105">
+                        <div class="absolute top-2 right-2 bg-white/90 px-2 py-1 rounded text-xs font-bold text-rose-500 uppercase tracking-wider shadow-sm">
+                            ${item.category}
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h4 class="font-serif text-lg text-stone-800 mb-1">${item.title}</h4>
+                        <p class="text-stone-500 text-xs mb-4 line-clamp-2">${item.description}</p>
+                        <button data-delete-id="${item.id}" class="delete-btn w-full py-2 border border-red-200 text-red-500 rounded-lg text-sm font-medium hover:bg-red-50 transition-colors flex items-center justify-center gap-2">
+                            Excluir
+                        </button>
+                    </div>
+                </div>
+            `).join('');
         },
 
         async handleImageUpload(file, type) {
-            const button = type === 'card' 
-                ? document.querySelector('#admin-form button[type="submit"]')
-                : document.querySelector('#settings-form button[type="submit"]');
+            const button = document.querySelector('#settings-form button[type="submit"]');
             
             const originalText = button.innerHTML;
             button.disabled = true;
@@ -101,14 +125,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 const base64 = await imageOptimizer.process(file);
-                if (type === 'card') {
-                    this._localState.cardImageBase64 = base64;
-                    document.getElementById('img-preview').src = base64;
-                    document.getElementById('img-preview-container').classList.remove('hidden');
-                } else {
-                    this._localState.heroImageBase64 = base64;
-                    document.getElementById('hero-preview').src = base64;
-                }
+                this._localState.heroImageBase64 = base64;
+                document.getElementById('hero-preview').src = base64;
                 uiManager.showToast('Imagem pronta para salvar.');
             } catch (error) {
                 console.error("Erro ao otimizar imagem:", error);
@@ -120,40 +138,27 @@ document.addEventListener('DOMContentLoaded', () => {
         },
 
         bindEvents() {
-            // Card Form
-            const adminForm = document.getElementById('admin-form');
-            document.getElementById('img-file')?.addEventListener('change', (e) => {
-                if (e.target.files[0]) this.handleImageUpload(e.target.files[0], 'card');
-            });
-            
-            adminForm?.addEventListener('submit', (e) => {
-                e.preventDefault();
-                if (!this._localState.cardImageBase64) {
-                    uiManager.showToast('Por favor, selecione e aguarde o processamento da imagem.', 'error');
-                    return;
-                }
-                const newCard = {
-                    id: Date.now(),
-                    image: this._localState.cardImageBase64,
-                    title: document.getElementById('card-title').value,
-                    description: document.getElementById('card-desc').value,
-                    category: document.getElementById('card-category').value
-                };
-                storageManager.addCard(newCard);
-                uiManager.showToast('Trabalho adicionado com sucesso!');
-                adminForm.reset();
-                document.getElementById('img-preview-container').classList.add('hidden');
-                this._localState.cardImageBase64 = '';
-                this.loadExistingCards();
-            });
-
             // Settings Form
             const settingsForm = document.getElementById('settings-form');
+            
             document.getElementById('hero-file')?.addEventListener('change', (e) => {
                 if (e.target.files[0]) this.handleImageUpload(e.target.files[0], 'hero');
             });
 
-            settingsForm?.addEventListener('submit', (e) => {
+            // Portfolio Form - Preview Imagem
+            const imgInput = document.getElementById('img-file');
+            imgInput?.addEventListener('change', async (e) => {
+                if (e.target.files[0]) {
+                    const base64 = await imageOptimizer.process(e.target.files[0]);
+                    const preview = document.getElementById('img-preview');
+                    preview.src = base64;
+                    document.getElementById('img-preview-container').classList.remove('hidden');
+                }
+            });
+
+            // --- Submit Handlers ---
+
+            settingsForm?.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const currentSettings = storageManager.getSettings();
                 const settings = {
@@ -170,23 +175,67 @@ document.addEventListener('DOMContentLoaded', () => {
                 this._localState.heroImageBase64 = '';
             });
 
-            // Delete Logic
-            let deleteTargetId = null;
-            const deleteModal = document.getElementById('delete-modal');
-            document.getElementById('admin-cards-list')?.addEventListener('click', (e) => {
-                const button = e.target.closest('.btn-delete');
-                if (button) {
-                    deleteTargetId = parseInt(button.getAttribute('data-id'));
-                    deleteModal?.classList.remove('hidden');
+            const portfolioForm = document.getElementById('admin-form');
+            portfolioForm?.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const file = imgInput.files[0];
+                if (!file) {
+                    uiManager.showToast('Selecione uma imagem.', 'error');
+                    return;
+                }
+
+                try {
+                    const imageBase64 = await imageOptimizer.process(file);
+                    const newItem = {
+                        id: Date.now(),
+                        image: imageBase64,
+                        title: document.getElementById('card-title').value,
+                        category: document.getElementById('card-category').value,
+                        description: document.getElementById('card-desc').value
+                    };
+
+                    const currentPortfolio = storageManager.getPortfolio();
+                    currentPortfolio.unshift(newItem);
+                    storageManager.set(storageManager.keys.portfolio, currentPortfolio);
+
+                    uiManager.showToast('Trabalho adicionado!');
+                    portfolioForm.reset();
+                    document.getElementById('img-preview-container').classList.add('hidden');
+                    this.renderPortfolioList();
+                } catch (err) {
+                    console.error(err);
+                    uiManager.showToast('Erro ao salvar card.', 'error');
                 }
             });
-            document.getElementById('cancel-delete-btn')?.addEventListener('click', () => deleteModal?.classList.add('hidden'));
+
+            // --- Delete Logic (Event Delegation) ---
+            const listContainer = document.getElementById('admin-cards-list');
+            const deleteModal = document.getElementById('delete-modal');
+
+            listContainer?.addEventListener('click', (e) => {
+                if (e.target.closest('.delete-btn')) {
+                    const btn = e.target.closest('.delete-btn');
+                    this._localState.itemToDeleteId = parseInt(btn.dataset.deleteId);
+                    deleteModal.classList.remove('hidden');
+                }
+            });
+
+            document.getElementById('cancel-delete-btn')?.addEventListener('click', () => {
+                deleteModal.classList.add('hidden');
+                this._localState.itemToDeleteId = null;
+            });
+
             document.getElementById('confirm-delete-btn')?.addEventListener('click', () => {
-                if (deleteTargetId) {
-                    storageManager.removeCard(deleteTargetId);
-                    this.loadExistingCards();
-                    deleteModal?.classList.add('hidden');
-                    uiManager.showToast('Item removido com sucesso!');
+                if (this._localState.itemToDeleteId) {
+                    const currentItems = storageManager.getPortfolio();
+                    const newItems = currentItems.filter(item => item.id !== this._localState.itemToDeleteId);
+                    storageManager.set(storageManager.keys.portfolio, newItems);
+                    
+                    this.renderPortfolioList();
+                    uiManager.showToast('Item removido.');
+                    deleteModal.classList.add('hidden');
+                    this._localState.itemToDeleteId = null;
                 }
             });
         }
