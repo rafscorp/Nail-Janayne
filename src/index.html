@@ -6,7 +6,7 @@
     <title>Janayne Studio | Nail Art & Design</title>
     <link rel="icon" type="image/png" href="assets/janayneLogo.png">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="dist/output.css">
+    <link rel="stylesheet" href="../dist/output.css">
     
     <!-- SEO & Open Graph (Premium) -->
     <meta name="description" content="Transforme suas unhas em obras de arte. Janayne Studio oferece Nail Art exclusiva, Blindagem e Alongamento em Gel com acabamento de luxo. Agende seu horário.">
@@ -14,6 +14,14 @@
     <meta property="og:description" content="Design de unhas exclusivo e sofisticado. Conheça nosso portfólio e agende seu horário.">
     <meta property="og:image" content="https://images.unsplash.com/photo-1519014816548-bf5fe059e98b?auto=format&fit=crop&w=1200&q=80">
     <meta property="og:type" content="website">
+    <style>
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 200%; }
+        }
+        .animate-shine { animation: shine 1.5s infinite linear; }
+        .group:hover .hover-shine { animation: shine 0.75s ease-in-out forwards; }
+    </style>
 </head>
 <body class="bg-white text-stone-800 font-sans antialiased selection:bg-rose-200 selection:text-stone-900">
 
@@ -26,10 +34,6 @@
             <nav class="hidden md:flex items-center gap-8 bg-white/60 backdrop-blur-2xl px-10 py-4 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/40 ring-1 ring-white/60 transition-all duration-500 hover:bg-white/80 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
                 <a href="#" class="relative text-sm font-medium text-stone-600 hover:text-rose-500 transition-colors duration-300 group">
                     Início
-                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-rose-400 transition-all duration-300 group-hover:w-full opacity-0 group-hover:opacity-100"></span>
-                </a>
-                <a href="bio.html" class="relative text-sm font-medium text-stone-600 hover:text-rose-500 transition-colors duration-300 group">
-                    Links
                     <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-rose-400 transition-all duration-300 group-hover:w-full opacity-0 group-hover:opacity-100"></span>
                 </a>
                 <a href="#galeria" class="relative text-sm font-medium text-stone-600 hover:text-rose-500 transition-colors duration-300 group">
@@ -55,13 +59,6 @@
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
         
-        <a href="bio.html" class="flex items-center w-full max-w-xs p-4 bg-white border border-rose-100 rounded-2xl shadow-sm hover:bg-rose-50 hover:shadow-md transition-all duration-500 opacity-0 translate-y-4 group">
-            <div class="p-3 bg-rose-100 rounded-xl text-rose-500 group-hover:bg-rose-200 transition-colors mr-4">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
-            </div>
-            <span class="font-serif text-xl text-stone-800 group-hover:text-rose-500 transition-colors">Links Rápidos</span>
-        </a>
-
         <a href="#galeria" class="flex items-center w-full max-w-xs p-4 bg-white border border-rose-100 rounded-2xl shadow-sm hover:bg-rose-50 hover:shadow-md transition-all duration-500 opacity-0 translate-y-4 group">
             <div class="p-3 bg-rose-100 rounded-xl text-rose-500 group-hover:bg-rose-200 transition-colors mr-4">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
@@ -100,7 +97,7 @@
                 Transformando unhas em obras de arte exclusivas. Onde a precisão técnica encontra a sofisticação minimalista.
             </p>
             <div class="flex flex-col sm:flex-row justify-center gap-4 opacity-0 animate-fade-in-up" style="animation-delay: 0.6s;">
-                <a href="https://wa.me/5561982412536?text=Ol%C3%A1%2C%20como%20fa%C3%A7o%20para%20agendar%20um%20hor%C3%A1rio%20com%20voc%C3%AAs%3F" class="bg-rose-300 text-stone-900 px-8 py-4 rounded-full font-medium shadow-md shadow-rose-200 hover:bg-rose-400 hover:shadow-[0_0_20px_rgba(244,93,126,0.6)] transition-all active:scale-95">
+                <a href="https://wa.me/5561982412536?text=Ol%C3%A1%2C%20como%20fa%C3%A7o%20para%20agendar%20um%20hor%C3%A1rio%20com%20voc%C3%AAs%3F" class="whatsapp-link bg-rose-300 text-stone-900 px-8 py-4 rounded-full font-medium shadow-md shadow-rose-200 hover:bg-rose-400 hover:shadow-[0_0_20px_rgba(244,93,126,0.6)] transition-all active:scale-95">
                     Agendar Horário
                 </a>
                 <a href="#galeria" class="bg-white text-stone-800 border border-rose-100 px-8 py-4 rounded-full font-medium shadow-sm hover:bg-rose-50 transition-all active:scale-95">
@@ -131,8 +128,12 @@
                 <button class="filter-btn px-6 py-2 rounded-full text-sm font-medium transition-all border border-rose-100 bg-rose-50 text-stone-800 hover:bg-rose-100" data-category="Pés">Pés</button>
             </div>
 
-            <div id="cards-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-                <!-- Os cards serão inseridos aqui via JavaScript -->
+            <div id="cards-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 min-h-[400px]">
+                <!-- Skeleton Loading State (Evita Layout Shift) -->
+                <div class="col-span-full flex flex-col items-center justify-center text-rose-300 opacity-50 py-12">
+                    <svg class="animate-spin h-8 w-8 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    <span class="text-sm font-serif">Carregando portfolio...</span>
+                </div>
             </div>
         </section>
 
@@ -164,13 +165,13 @@
     </main>
 
     <footer class="bg-stone-900 text-rose-50 py-8 text-center">
-        <h2 class="font-serif text-2xl mb-4 text-rose-200">Janayne Studio</h2>
+        <h2 class="salon-name font-serif text-2xl mb-4 text-rose-200">Janayne Studio</h2>
         <p class="text-white/50 text-xs tracking-widest uppercase mb-8">Designed for Beauty</p>
         <p class="text-white/30 text-xs">&copy; 2026 Todos os direitos reservados.</p>
     </footer>
 
     <!-- Floating WhatsApp Button (Hidden initially) -->
-    <a id="whatsapp-float" href="https://wa.me/5561982412536?text=Ol%C3%A1%2C%20como%20fa%C3%A7o%20para%20agendar%20um%20hor%C3%A1rio%20com%20voc%C3%AAs%3F" target="_blank" class="fixed bottom-24 right-6 z-50 bg-rose-400 text-white p-4 rounded-full shadow-xl hover:bg-rose-500 transition-all duration-500 transform hover:scale-110 opacity-0 translate-y-10 pointer-events-none flex items-center justify-center" aria-label="Conversar no WhatsApp">
+    <a id="whatsapp-float" href="https://wa.me/5561982412536?text=Ol%C3%A1%2C%20como%20fa%C3%A7o%20para%20agendar%20um%20hor%C3%A1rio%20com%20voc%C3%AAs%3F" target="_blank" class="whatsapp-link fixed bottom-24 right-6 z-50 bg-rose-400 text-white p-4 rounded-full shadow-xl hover:bg-rose-500 transition-all duration-500 transform hover:scale-110 opacity-0 translate-y-10 pointer-events-none flex items-center justify-center" aria-label="Conversar no WhatsApp">
         <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
     </a>
 
@@ -180,14 +181,29 @@
         <div class="absolute inset-0 bg-stone-900/90 backdrop-blur-md transition-opacity" id="modal-backdrop"></div>
         
         <!-- Conteúdo do Modal -->
-        <div class="relative z-10 flex flex-col items-center justify-center h-full px-4 py-8">
+        <div class="relative z-10 flex flex-col items-center justify-center h-full p-4">
             <!-- Botão Fechar -->
-            <button id="modal-close" class="absolute top-6 right-6 text-white/80 hover:text-white p-2 transition-transform hover:scale-110 focus:outline-none">
+            <button id="modal-close" class="absolute top-6 right-6 z-50 text-white/80 hover:text-white p-2 transition-transform hover:scale-110 focus:outline-none">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
 
+            <!-- Navegação (Setas) -->
+            <button id="modal-prev" class="fixed left-2 md:left-8 top-1/2 -translate-y-1/2 z-[70] text-white p-2 md:p-3 rounded-full bg-black/20 hover:bg-black/40 backdrop-blur-sm transition-all focus:outline-none">
+                <svg class="w-8 h-8 md:w-10 md:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+            
+            <button id="modal-next" class="fixed right-2 md:right-8 top-1/2 -translate-y-1/2 z-[70] text-white p-2 md:p-3 rounded-full bg-black/20 hover:bg-black/40 backdrop-blur-sm transition-all focus:outline-none">
+                <svg class="w-8 h-8 md:w-10 md:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+
             <!-- Imagem em Fullscreen -->
-            <img id="modal-img" src="" alt="Visualização" class="max-h-[70vh] w-auto rounded-lg shadow-2xl object-contain mb-8 transform scale-95 transition-transform duration-300">
+            <img id="modal-img" src="" alt="Visualização" class="max-h-[40vh] md:max-h-[60vh] w-auto max-w-[90vw] md:max-w-4xl rounded-lg shadow-2xl object-contain mb-4 md:mb-6 mx-auto">
+
+            <!-- Contador e Dots (Mots/Mods) - Agora abaixo da foto -->
+            <div class="flex flex-col items-center justify-center mb-6 gap-3 w-full relative z-20">
+                <div id="modal-dots" class="flex gap-2"></div>
+                <div id="modal-counter" class="text-white/60 text-[10px] font-bold tracking-widest uppercase"></div>
+            </div>
 
             <!-- Botão WhatsApp Dinâmico (CRO) -->
             <a id="modal-cta" href="#" target="_blank" class="bg-rose-500 text-white px-8 py-4 rounded-full font-medium shadow-lg shadow-rose-500/30 hover:bg-rose-600 hover:shadow-rose-500/50 hover:-translate-y-1 transition-all active:scale-95 flex items-center gap-2">
@@ -197,6 +213,7 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/index.js"></script>
 </body>
 </html>

@@ -6,7 +6,7 @@
     <title>Admin - Janayne Studio</title>
     <link rel="icon" type="image/png" href="assets/janayneLogo.png">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="dist/output.css">
+    <link rel="stylesheet" href="../dist/output.css">
 </head>
 <body class="bg-rose-50 text-stone-800 font-sans antialiased">
 
@@ -72,22 +72,36 @@
                     </div>
 
                     <!-- Cores -->
-                    <div class="grid grid-cols-3 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
-                            <label class="block text-xs font-bold uppercase text-stone-500 mb-1">Cor Principal</label>
+                            <label for="color-primary" class="block text-xs font-bold uppercase text-stone-500 mb-1">Cor Principal</label>
                             <input type="color" id="color-primary" class="w-full h-10 rounded-lg cursor-pointer border border-rose-200" value="#f45d7e">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold uppercase text-stone-500 mb-1">Cor Fundo</label>
+                            <label for="color-light" class="block text-xs font-bold uppercase text-stone-500 mb-1">Cor Fundo</label>
                             <input type="color" id="color-light" class="w-full h-10 rounded-lg cursor-pointer border border-rose-200" value="#ffeef1">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold uppercase text-stone-500 mb-1">Cor Texto</label>
+                            <label for="color-text" class="block text-xs font-bold uppercase text-stone-500 mb-1">Cor Texto</label>
                             <input type="color" id="color-text" class="w-full h-10 rounded-lg cursor-pointer border border-rose-200" value="#292524">
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full bg-stone-800 text-white font-medium py-3 rounded-xl shadow-md hover:bg-stone-900 active:scale-95 transition-all">Salvar Aparência</button>
+                    <!-- Identidade -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-rose-100">
+                        <div>
+                            <label for="salon-name" class="block text-xs font-bold uppercase text-stone-500 mb-1">Nome do Salão</label>
+                            <input type="text" id="salon-name" placeholder="Janayne Studio"
+                                class="w-full bg-rose-50 border border-rose-200 rounded-lg px-4 py-3 text-sm text-stone-800 focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent transition-all">
+                        </div>
+                        <div>
+                            <label for="whatsapp-link" class="block text-xs font-bold uppercase text-stone-500 mb-1">Link do WhatsApp</A></label>
+                            <input type="url" id="whatsapp-link" placeholder="https://wa.me/5561..."
+                                class="w-full bg-rose-50 border border-rose-200 rounded-lg px-4 py-3 text-sm text-stone-800 focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent transition-all">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-stone-800 text-white font-medium py-3 rounded-xl shadow-md hover:bg-stone-900 active:scale-95 transition-all !mt-8">Salvar Aparência</button>
                 </form>
             </section>
 
@@ -177,7 +191,7 @@
         </div>
     </div>
 
-    <script src="utils.js"></script>
-    <script src="admin.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/admin.js"></script>
 </body>
 </html>

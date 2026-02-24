@@ -2,8 +2,8 @@
   "name": "janayne-project",
   "version": "1.0.0",
   "scripts": {
-    "build": "tailwindcss -i ./input.css -o ./dist/output.css --minify",
-    "watch": "tailwindcss -i ./input.css -o ./dist/output.css --watch"
+    "build": "tailwindcss -i ./src/styles/input.css -o ./dist/output.css --minify",
+    "watch": "tailwindcss -i ./src/styles/input.css -o ./dist/output.css --watch"
   },
   "devDependencies": {
     "tailwindcss": "^3.4.1"
