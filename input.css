@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: 244 93 126; /* #f45d7e */
+    --color-light: 255 238 241;  /* #ffeef1 */
+    --color-text: 41 37 36;      /* #292524 */
+  }
+  * { -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; }
+}

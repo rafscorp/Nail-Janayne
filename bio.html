@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Janayne Studio - Links</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" href="assets/janayneLogo.png">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="bio.css">
+    <link rel="stylesheet" href="dist/output.css">
     
     <!-- SEO & Open Graph (Premium) -->
     <meta name="description" content="Agende seu horário no Janayne Studio. Links rápidos para WhatsApp, Localização e Portfólio.">
@@ -14,39 +14,6 @@
     <meta property="og:description" content="Design de unhas exclusivo. Clique para agendar.">
     <meta property="og:image" content="https://images.unsplash.com/photo-1519014816548-bf5fe059e98b?auto=format&fit=crop&w=1200&q=80">
     <meta property="og:type" content="website">
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        rose: { 50: 'rgb(var(--color-light) / <alpha-value>)', 100: 'rgb(var(--color-light) / <alpha-value>)', 200: 'rgb(var(--color-primary) / 0.3)', 300: 'rgb(var(--color-primary) / 0.6)', 400: 'rgb(var(--color-primary) / <alpha-value>)', 500: 'rgb(var(--color-primary) / <alpha-value>)' },
-                        stone: { 800: 'rgb(var(--color-text) / <alpha-value>)', 900: '#1c1917', 600: '#57534e' }
-                    },
-                    fontFamily: {
-                        serif: ['"Playfair Display"', 'serif'],
-                        sans: ['"Quicksand"', 'sans-serif'],
-                    },
-                    animation: {
-                        'fade-in': 'fadeIn 1.2s ease-out',
-                    },
-                    keyframes: {
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        }
-                    }
-                }
-            }
-        }
-        // Valores padrão
-        const root = document.documentElement;
-        if (!root.style.getPropertyValue('--color-primary')) {
-            root.style.setProperty('--color-primary', '244 93 126');
-            root.style.setProperty('--color-light', '255 238 241');
-            root.style.setProperty('--color-text', '41 37 36');
-        }
-    </script>
 </head>
 <body class="bg-rose-50 text-stone-800 font-sans antialiased pb-24 overflow-x-hidden animate-fade-in selection:bg-rose-200 selection:text-stone-900">
 

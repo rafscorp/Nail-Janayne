@@ -11,13 +11,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const adminContent = document.getElementById('admin-content');
     const adminLogin = document.getElementById('admin-login');
     const logoutBtn = document.getElementById('logout-btn');
-    const targetHash = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4";
+    const targetHash = "fc5669b52ce4e283ad1d5d182de88ff9faec6672bace84ac2ce4c083f54fe2bc";
 
     async function sha256(message) {
-        const msgBuffer = new TextEncoder().encode(message);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        // CORREÇÃO: Verifica se a criptografia está disponível (não funciona em HTTP no celular)
+        if (window.crypto && window.crypto.subtle) {
+            const msgBuffer = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        } else {
+            // Fallback para celular/HTTP: permite login se a senha for 'kali'
+            return message === 'kali' ? targetHash : 'senha_invalida';
+        }
     }
 
     if (sessionStorage.getItem('adminLogged') === 'true') {
@@ -28,16 +34,43 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const password = document.getElementById('admin-password').value;
-            const inputHash = await sha256(password);
-            if (inputHash === targetHash) {
-                sessionStorage.setItem('adminLogged', 'true');
-                adminLogin.classList.add('hidden');
-                adminContent.classList.remove('hidden');
-                UI.showToast('Bem-vinda de volta!', 'success');
-            } else {
-                UI.showToast('Senha incorreta.', 'error');
+            const passwordInput = document.getElementById('admin-password');
+            const password = passwordInput.value.trim().toLowerCase();
+            
+            try {
+                const inputHash = await sha256(password);
+                
+                if (inputHash === targetHash) {
+                    sessionStorage.setItem('adminLogged', 'true');
+                    adminLogin.classList.add('hidden');
+                    adminContent.classList.remove('hidden');
+                    UI.showToast('Bem-vinda de volta!', 'success');
+                } else {
+                    UI.showToast('Senha incorreta.', 'error');
+                    // Feedback visual: Borda vermelha piscando
+                    passwordInput.classList.add('ring-2', 'ring-red-500');
+                    setTimeout(() => passwordInput.classList.remove('ring-2', 'ring-red-500'), 500);
+                }
+            } catch (err) {
+                alert("Erro ao tentar logar: " + err.message);
             }
+        });
+    }
+
+    // Toggle Password Visibility
+    const togglePasswordBtn = document.getElementById('toggle-password');
+    const passwordInput = document.getElementById('admin-password');
+    const eyeIcon = document.getElementById('eye-icon');
+    const eyeOffIcon = document.getElementById('eye-off-icon');
+
+    if (togglePasswordBtn && passwordInput) {
+        togglePasswordBtn.addEventListener('click', () => {
+            const isPassword = passwordInput.type === 'password';
+            passwordInput.type = isPassword ? 'text' : 'password';
+            
+            // Alterna ícones
+            eyeIcon.classList.toggle('hidden', isPassword);
+            eyeOffIcon.classList.toggle('hidden', !isPassword);
         });
     }
 
