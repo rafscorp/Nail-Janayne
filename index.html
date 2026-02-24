@@ -5,86 +5,156 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Janayne Studio | Nail Art & Design</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    
+    <!-- SEO & Open Graph (Premium) -->
+    <meta name="description" content="Transforme suas unhas em obras de arte. Janayne Studio oferece Nail Art exclusiva, Blindagem e Alongamento em Gel com acabamento de luxo. Agende seu horário.">
+    <meta property="og:title" content="Janayne Studio | Nail Art & Design">
+    <meta property="og:description" content="Design de unhas exclusivo e sofisticado. Conheça nosso portfólio e agende seu horário.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1519014816548-bf5fe059e98b?auto=format&fit=crop&w=1200&q=80">
+    <meta property="og:type" content="website">
+
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        rose: { 50: '#fff0f5', 100: '#ffe4e9', 200: '#fecdd6', 300: '#fda4b0', 400: '#fb7185' },
-                        stone: { 800: '#292524', 900: '#1c1917', 600: '#57534e' }
+                        rose: { 50: 'rgb(var(--color-light) / <alpha-value>)', 100: 'rgb(var(--color-light) / <alpha-value>)', 200: 'rgb(var(--color-primary) / 0.3)', 300: 'rgb(var(--color-primary) / 0.6)', 400: 'rgb(var(--color-primary) / <alpha-value>)', 500: 'rgb(var(--color-primary) / <alpha-value>)' },
+                        stone: { 800: 'rgb(var(--color-text) / <alpha-value>)', 900: '#1c1917', 600: '#57534e' }
                     },
                     fontFamily: {
                         serif: ['"Playfair Display"', 'serif'],
-                        sans: ['"Poppins"', 'sans-serif'],
+                        sans: ['"Quicksand"', 'sans-serif'],
                     },
                     animation: {
                         'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'pulse-glow': 'pulseGlow 3s infinite',
+                        'typewriter': 'typewriter 6s infinite, blink 1s step-end infinite',
+                        'gentle-bounce': 'gentleBounce 3s infinite',
                     },
                     keyframes: {
                         fadeInUp: {
                             '0%': { opacity: '0', transform: 'translateY(20px)' },
                             '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { filter: 'drop-shadow(0 0 25px rgba(244,93,126,0.6))' },
+                            '50%': { filter: 'drop-shadow(0 0 45px rgba(244,93,126,0.9)) drop-shadow(0 0 15px rgba(255,255,255,0.5))' },
+                        },
+                        typewriter: {
+                            '0%': { maxWidth: '0', opacity: '1', animationTimingFunction: 'steps(16, end)' },
+                            '35%': { maxWidth: '16ch', opacity: '1', animationTimingFunction: 'linear' },
+                            '85%': { maxWidth: '16ch', opacity: '1' },
+                            '100%': { maxWidth: '16ch', opacity: '0' },
+                        },
+                        blink: {
+                            '0%, 100%': { borderColor: 'transparent' },
+                            '50%': { borderColor: '#fb7185' },
+                        },
+                        gentleBounce: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-6px)' },
                         }
                     }
                 }
             }
         }
+        // Valores padrão
+        const root = document.documentElement;
+        if (!root.style.getPropertyValue('--color-primary')) {
+            root.style.setProperty('--color-primary', '244 93 126');
+            root.style.setProperty('--color-light', '255 238 241');
+            root.style.setProperty('--color-text', '41 37 36');
+        }
     </script>
-    <style>
-        /* Remove o highlight azul no mobile */
-        * { -webkit-tap-highlight-color: transparent; }
-        /* Scroll suave */
-        html { scroll-behavior: smooth; }
-    </style>
 </head>
 <body class="bg-white text-stone-800 font-sans antialiased selection:bg-rose-200 selection:text-stone-900">
 
     <!-- Header Glassmorphism -->
-    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-rose-100/80 backdrop-blur-md border-b border-rose-200">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="font-serif text-2xl font-bold tracking-wide text-stone-800 hover:text-rose-400 transition-colors">
-                JANAYNE.
-            </a>
+    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-transparent backdrop-blur-sm border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-end md:justify-center items-center relative h-16">
+            <!-- Logo removida daqui -->
             
             <!-- Desktop Nav -->
-            <nav class="hidden md:flex space-x-8 items-center">
-                <a href="bio.html" class="text-sm font-medium text-stone-600 hover:text-rose-400 transition-colors">Links</a>
-                <a href="#galeria" class="text-sm font-medium text-stone-600 hover:text-rose-400 transition-colors">Portfolio</a>
-                <a href="#reviews" class="text-sm font-medium text-stone-600 hover:text-rose-400 transition-colors">Depoimentos</a>
-                <a href="admin.html" class="text-xs uppercase tracking-widest border border-stone-300 px-5 py-2 rounded-full hover:bg-stone-800 hover:text-white hover:border-stone-800 transition-all active:scale-95">Admin</a>
+            <nav class="hidden md:flex items-center gap-8 bg-white/60 backdrop-blur-2xl px-10 py-4 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/40 ring-1 ring-white/60 transition-all duration-500 hover:bg-white/80 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
+                <a href="#" class="relative text-sm font-medium text-stone-600 hover:text-rose-500 transition-colors duration-300 group">
+                    Início
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-rose-400 transition-all duration-300 group-hover:w-full opacity-0 group-hover:opacity-100"></span>
+                </a>
+                <a href="bio.html" class="relative text-sm font-medium text-stone-600 hover:text-rose-500 transition-colors duration-300 group">
+                    Links
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-rose-400 transition-all duration-300 group-hover:w-full opacity-0 group-hover:opacity-100"></span>
+                </a>
+                <a href="#galeria" class="relative text-sm font-medium text-stone-600 hover:text-rose-500 transition-colors duration-300 group">
+                    Portfolio
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-rose-400 transition-all duration-300 group-hover:w-full opacity-0 group-hover:opacity-100"></span>
+                </a>
+                <a href="#reviews" class="relative text-sm font-medium text-stone-600 hover:text-rose-500 transition-colors duration-300 group">
+                    Depoimentos
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-rose-400 transition-all duration-300 group-hover:w-full opacity-0 group-hover:opacity-100"></span>
+                </a>
             </nav>
 
             <!-- Mobile Menu Button -->
-            <button id="mobile-menu-btn" class="md:hidden p-2 -mr-2 text-stone-800 focus:outline-none active:scale-90 transition-transform">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            <button id="mobile-menu-btn" class="md:hidden p-2 text-stone-800 focus:outline-none active:scale-90 transition-transform bg-white/50 rounded-full backdrop-blur-md">
+                <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path></svg>
             </button>
         </div>
     </header>
 
     <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu" class="fixed inset-0 z-50 bg-white/95 backdrop-blur-xl transition-all duration-300 opacity-0 pointer-events-none hidden flex flex-col justify-center items-center space-y-8 md:hidden">
+    <div id="mobile-menu" class="fixed inset-0 z-50 bg-white/90 backdrop-blur-3xl transition-transform duration-300 translate-x-full hidden flex flex-col justify-center items-center space-y-6 md:hidden px-6">
         <button id="close-menu-btn" class="absolute top-6 right-6 p-4 text-stone-800 active:scale-90 transition-transform">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
-        <a href="bio.html" class="font-serif text-4xl text-stone-800 hover:text-rose-400 transition-colors">Links</a>
-        <a href="#galeria" class="font-serif text-4xl text-stone-800 hover:text-rose-400 transition-colors">Portfolio</a>
-        <a href="#reviews" class="font-serif text-4xl text-stone-800 hover:text-rose-400 transition-colors">Depoimentos</a>
-        <a href="admin.html" class="text-sm uppercase tracking-widest border border-stone-300 px-8 py-3 rounded-full mt-4 active:scale-95 transition-transform">Área Admin</a>
+        
+        <a href="bio.html" class="flex items-center w-full max-w-xs p-4 bg-white border border-rose-100 rounded-2xl shadow-sm hover:bg-rose-50 hover:shadow-md transition-all duration-500 opacity-0 translate-y-4 group">
+            <div class="p-3 bg-rose-100 rounded-xl text-rose-500 group-hover:bg-rose-200 transition-colors mr-4">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+            </div>
+            <span class="font-serif text-xl text-stone-800 group-hover:text-rose-500 transition-colors">Links Rápidos</span>
+        </a>
+
+        <a href="#galeria" class="flex items-center w-full max-w-xs p-4 bg-white border border-rose-100 rounded-2xl shadow-sm hover:bg-rose-50 hover:shadow-md transition-all duration-500 opacity-0 translate-y-4 group">
+            <div class="p-3 bg-rose-100 rounded-xl text-rose-500 group-hover:bg-rose-200 transition-colors mr-4">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            </div>
+            <span class="font-serif text-xl text-stone-800 group-hover:text-rose-500 transition-colors">Portfolio</span>
+        </a>
+
+        <a href="#reviews" class="flex items-center w-full max-w-xs p-4 bg-white border border-rose-100 rounded-2xl shadow-sm hover:bg-rose-50 hover:shadow-md transition-all duration-500 opacity-0 translate-y-4 group">
+            <div class="p-3 bg-rose-100 rounded-xl text-rose-500 group-hover:bg-rose-200 transition-colors mr-4">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
+            </div>
+            <span class="font-serif text-xl text-stone-800 group-hover:text-rose-500 transition-colors">Depoimentos</span>
+        </a>
     </div>
 
     <!-- Hero Section -->
-    <section class="relative pt-32 pb-20 px-6 md:pt-40 md:pb-32 overflow-hidden bg-rose-50">
+    <section class="relative pt-32 pb-20 px-6 md:pt-40 md:pb-32 overflow-hidden">
+        <!-- Parallax Background Image -->
+        <div class="absolute inset-0 z-0">
+            <img id="hero-parallax-img" src="assets/foto1.jpg" alt="Background Texture" class="w-full h-[130%] -top-[15%] absolute object-cover opacity-70 will-change-transform">
+            <!-- Overlay suave para garantir leitura do texto -->
+            <div class="absolute inset-0 bg-gradient-to-b from-white/40 via-white/70 to-white"></div>
+            <!-- Gradiente superior para legibilidade do menu -->
+            <div class="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-white/80 to-transparent"></div>
+        </div>
+
         <div class="max-w-4xl mx-auto text-center relative z-10">
+            <div class="flex justify-center mb-8 opacity-0 animate-fade-in-up -ml-12" style="animation-delay: 0.1s;">
+                <img src="assets/janayneLogo.png" alt="Janayne Studio Logo" class="hero-logo h-44 w-auto object-contain animate-pulse-glow hover:animate-none hover:drop-shadow-[0_0_30px_rgba(244,93,126,0.8)] transition-all duration-300">
+            </div>
             <span class="block text-rose-400 text-xs font-bold tracking-[0.3em] uppercase mb-6 opacity-0 animate-fade-in-up">Nail Designer & Artist</span>
             <h1 class="font-serif text-5xl md:text-7xl text-stone-800 leading-tight mb-6 opacity-0 animate-fade-in-up" style="animation-delay: 0.2s;">
-                Arte & Design <br> <span class="italic text-stone-600">para suas mãos.</span>
+                Arte <span class="font-light text-rose-400 italic">e</span> Design <br> <span class="italic text-stone-600 inline-block overflow-hidden whitespace-nowrap border-r-2 border-rose-400 animate-typewriter align-bottom" style="max-width: 0">para suas mãos.</span>
             </h1>
             <p class="text-stone-600 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light leading-relaxed opacity-0 animate-fade-in-up" style="animation-delay: 0.4s;">
                 Transformando unhas em obras de arte exclusivas. Onde a precisão técnica encontra a sofisticação minimalista.
             </p>
             <div class="flex flex-col sm:flex-row justify-center gap-4 opacity-0 animate-fade-in-up" style="animation-delay: 0.6s;">
-                <a href="https://wa.me/5561982412536?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20um%20hor%C3%A1rio." class="bg-rose-300 text-stone-900 px-8 py-4 rounded-full font-medium shadow-md shadow-rose-200 hover:bg-rose-400 hover:shadow-lg transition-all active:scale-95">
+                <a href="https://wa.me/5561982412536?text=Ol%C3%A1%2C%20como%20fa%C3%A7o%20para%20agendar%20um%20hor%C3%A1rio%20com%20voc%C3%AAs%3F" class="bg-rose-300 text-stone-900 px-8 py-4 rounded-full font-medium shadow-md shadow-rose-200 hover:bg-rose-400 hover:shadow-[0_0_20px_rgba(244,93,126,0.6)] transition-all active:scale-95">
                     Agendar Horário
                 </a>
                 <a href="#galeria" class="bg-white text-stone-800 border border-rose-100 px-8 py-4 rounded-full font-medium shadow-sm hover:bg-rose-50 transition-all active:scale-95">
@@ -106,6 +176,15 @@
                 <span class="hidden md:block text-xs font-bold tracking-widest text-rose-400 uppercase">Últimos Trabalhos</span>
             </div>
             
+            <!-- Filtros de Categoria -->
+            <div class="flex flex-wrap justify-center gap-3 mb-10" id="portfolio-filters">
+                <button class="filter-btn px-6 py-2 rounded-full text-sm font-medium transition-all border border-rose-200 bg-rose-300 text-stone-900 shadow-md active-filter" data-category="all">Todos</button>
+                <button class="filter-btn px-6 py-2 rounded-full text-sm font-medium transition-all border border-rose-100 bg-rose-50 text-stone-800 hover:bg-rose-100" data-category="Nail Art">Nail Art</button>
+                <button class="filter-btn px-6 py-2 rounded-full text-sm font-medium transition-all border border-rose-100 bg-rose-50 text-stone-800 hover:bg-rose-100" data-category="Alongamento">Alongamento</button>
+                <button class="filter-btn px-6 py-2 rounded-full text-sm font-medium transition-all border border-rose-100 bg-rose-50 text-stone-800 hover:bg-rose-100" data-category="Blindagem">Blindagem</button>
+                <button class="filter-btn px-6 py-2 rounded-full text-sm font-medium transition-all border border-rose-100 bg-rose-50 text-stone-800 hover:bg-rose-100" data-category="Pés">Pés</button>
+            </div>
+
             <div id="cards-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                 <!-- Os cards serão inseridos aqui via JavaScript -->
             </div>
@@ -138,11 +217,39 @@
 
     </main>
 
-    <footer class="bg-stone-900 text-rose-50 py-12 text-center">
+    <footer class="bg-stone-900 text-rose-50 py-8 text-center">
         <h2 class="font-serif text-2xl mb-4 text-rose-200">Janayne Studio</h2>
         <p class="text-white/50 text-xs tracking-widest uppercase mb-8">Designed for Beauty</p>
-        <p class="text-white/30 text-xs">&copy; 2024 Todos os direitos reservados.</p>
+        <p class="text-white/30 text-xs">&copy; 2026 Todos os direitos reservados.</p>
     </footer>
+
+    <!-- Floating WhatsApp Button (Hidden initially) -->
+    <a id="whatsapp-float" href="https://wa.me/5561982412536?text=Ol%C3%A1%2C%20como%20fa%C3%A7o%20para%20agendar%20um%20hor%C3%A1rio%20com%20voc%C3%AAs%3F" target="_blank" class="fixed bottom-24 right-6 z-50 bg-rose-400 text-white p-4 rounded-full shadow-xl hover:bg-rose-500 transition-all duration-500 transform hover:scale-110 opacity-0 translate-y-10 pointer-events-none flex items-center justify-center" aria-label="Conversar no WhatsApp">
+        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    </a>
+
+    <!-- Modal / Lightbox (Hidden by default) -->
+    <div id="image-modal" class="fixed inset-0 z-[60] hidden opacity-0 transition-opacity duration-300" aria-hidden="true">
+        <!-- Backdrop Glassmorphism Escuro -->
+        <div class="absolute inset-0 bg-stone-900/90 backdrop-blur-md transition-opacity" id="modal-backdrop"></div>
+        
+        <!-- Conteúdo do Modal -->
+        <div class="relative z-10 flex flex-col items-center justify-center h-full px-4 py-8">
+            <!-- Botão Fechar -->
+            <button id="modal-close" class="absolute top-6 right-6 text-white/80 hover:text-white p-2 transition-transform hover:scale-110 focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+
+            <!-- Imagem em Fullscreen -->
+            <img id="modal-img" src="" alt="Visualização" class="max-h-[70vh] w-auto rounded-lg shadow-2xl object-contain mb-8 transform scale-95 transition-transform duration-300">
+
+            <!-- Botão WhatsApp Dinâmico (CRO) -->
+            <a id="modal-cta" href="#" target="_blank" class="bg-rose-500 text-white px-8 py-4 rounded-full font-medium shadow-lg shadow-rose-500/30 hover:bg-rose-600 hover:shadow-rose-500/50 hover:-translate-y-1 transition-all active:scale-95 flex items-center gap-2">
+                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23-1.48 0-2.93-.39-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.32a8.188 8.188 0 0 1-1.26-4.38c.01-4.54 3.7-8.23 8.25-8.23m4.53 10.43c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43s.17-.25.25-.41c.08-.17.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18s-.22-.16-.47-.28z"/></svg>
+                Agendar este serviço
+            </a>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

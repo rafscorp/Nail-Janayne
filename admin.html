@@ -5,82 +5,196 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Janayne Studio</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        rose: { 50: '#fff0f5', 100: '#ffe4e9', 200: '#fecdd6', 300: '#fda4b0', 400: '#fb7185' },
-                        stone: { 800: '#292524', 900: '#1c1917', 600: '#57534e' }
+                        rose: { 50: 'rgb(var(--color-light) / <alpha-value>)', 100: 'rgb(var(--color-light) / <alpha-value>)', 200: 'rgb(var(--color-primary) / 0.3)', 300: 'rgb(var(--color-primary) / 0.6)', 400: 'rgb(var(--color-primary) / <alpha-value>)', 500: 'rgb(var(--color-primary) / <alpha-value>)' },
+                        stone: { 800: 'rgb(var(--color-text) / <alpha-value>)', 900: '#1c1917', 600: '#57534e' }
                     },
                     fontFamily: {
                         serif: ['"Playfair Display"', 'serif'],
-                        sans: ['"Poppins"', 'sans-serif'],
+                        sans: ['"Quicksand"', 'sans-serif'],
                     }
                 }
             }
         }
+        // Valores padrão para evitar flash de conteúdo sem estilo antes do JS rodar
+        const root = document.documentElement;
+        if (!root.style.getPropertyValue('--color-primary')) {
+            root.style.setProperty('--color-primary', '244 93 126'); // #f45d7e
+            root.style.setProperty('--color-light', '255 238 241');  // #ffeef1
+            root.style.setProperty('--color-text', '41 37 36');      // #292524
+        }
     </script>
-    <style>
-        * { -webkit-tap-highlight-color: transparent; }
-    </style>
 </head>
 <body class="bg-rose-50 text-stone-800 font-sans antialiased">
 
-    <header class="bg-white text-stone-800 py-6 shadow-sm border-b border-rose-100">
-        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
-            <h1 class="font-serif text-xl tracking-wide">Painel Administrativo</h1>
-            <a href="index.html" class="text-sm font-medium hover:text-rose-400 transition-colors flex items-center gap-2">
-                <span>&larr;</span> Voltar ao Site
-            </a>
+    <!-- Tela de Login (Bloqueio) -->
+    <div id="admin-login" class="fixed inset-0 z-50 bg-rose-50 flex items-center justify-center p-4">
+        <div class="bg-white p-8 rounded-2xl shadow-xl border border-rose-100 w-full max-w-md text-center">
+            <div class="mb-6">
+                <div class="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                </div>
+                <h2 class="font-serif text-2xl text-stone-800">Acesso Restrito</h2>
+                <p class="text-stone-500 text-sm mt-2">Área exclusiva para administração.</p>
+            </div>
+            <form id="login-form" class="space-y-4">
+                <input type="password" id="admin-password" placeholder="Senha de acesso" class="w-full bg-rose-50 border border-rose-200 rounded-lg px-4 py-3 text-center focus:outline-none focus:ring-2 focus:ring-rose-300 transition-all" required>
+                <button type="submit" class="w-full bg-rose-400 text-white font-medium py-3 rounded-xl shadow-lg hover:bg-rose-500 transition-all active:scale-95">Entrar</button>
+            </form>
+            <a href="index.html" class="block mt-6 text-xs text-stone-400 hover:text-rose-400 transition-colors">Voltar ao site principal</a>
         </div>
-    </header>
+    </div>
 
-    <main class="max-w-7xl mx-auto px-6 py-12">
-        
-        <!-- Seção de Adicionar -->
-        <section class="bg-white rounded-2xl shadow-sm border border-rose-100 p-8 mb-12 max-w-2xl mx-auto">
-            <h3 class="font-serif text-2xl mb-6 text-stone-800 border-b border-rose-50 pb-2">Adicionar Novo Trabalho</h3>
-            <form id="admin-form" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold uppercase text-stone-500 mb-1">URL da Imagem</label>
-                    <input type="text" id="img-url" placeholder="ex: assets/foto1.jpg" required
-                        class="w-full bg-rose-50 border border-rose-200 rounded-lg px-4 py-3 text-sm text-stone-800 focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent transition-all">
+    <!-- Conteúdo do Admin (Oculto inicialmente) -->
+    <div id="admin-content" class="hidden">
+        <header class="bg-white text-stone-800 py-6 shadow-sm border-b border-rose-100">
+            <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+                <h1 class="font-serif text-xl tracking-wide">Painel Administrativo</h1>
+                <div class="flex items-center gap-4">
+                    <button id="logout-btn" class="text-xs font-bold uppercase tracking-widest text-rose-500 hover:text-rose-600">Sair</button>
+                    <a href="index.html" class="text-sm font-medium hover:text-rose-400 transition-colors flex items-center gap-2">
+                        <span>&larr;</span> Voltar ao Site
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <main class="max-w-7xl mx-auto px-6 py-12">
+            
+            <!-- Seção de Configurações do Site -->
+            <section class="bg-white rounded-2xl shadow-sm border border-rose-100 p-8 mb-12 max-w-2xl mx-auto">
+                <h3 class="font-serif text-2xl mb-6 text-stone-800 border-b border-rose-50 pb-2">Personalizar Site</h3>
+                <form id="settings-form" class="space-y-6">
+                    
+                    <!-- Upload Background -->
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-stone-500 mb-2">Foto de Fundo (Hero)</label>
+                        <div class="flex items-center gap-4">
+                            <div class="w-20 h-20 rounded-lg overflow-hidden border border-rose-100 bg-rose-50">
+                                <img id="hero-preview" src="" class="w-full h-full object-cover" alt="Atual">
+                            </div>
+                            <label for="hero-file" class="flex-1 cursor-pointer">
+                                <div class="px-4 py-2 border border-rose-200 rounded-lg text-sm text-stone-600 hover:bg-rose-50 transition-colors text-center">
+                                    Alterar Imagem
+                                </div>
+                                <input id="hero-file" type="file" class="hidden" accept="image/*">
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Cores -->
+                    <div class="grid grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-stone-500 mb-1">Cor Principal</label>
+                            <input type="color" id="color-primary" class="w-full h-10 rounded-lg cursor-pointer border border-rose-200" value="#f45d7e">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-stone-500 mb-1">Cor Fundo</label>
+                            <input type="color" id="color-light" class="w-full h-10 rounded-lg cursor-pointer border border-rose-200" value="#ffeef1">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-stone-500 mb-1">Cor Texto</label>
+                            <input type="color" id="color-text" class="w-full h-10 rounded-lg cursor-pointer border border-rose-200" value="#292524">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-stone-800 text-white font-medium py-3 rounded-xl shadow-md hover:bg-stone-900 active:scale-95 transition-all">Salvar Aparência</button>
+                </form>
+            </section>
+
+            <!-- Seção de Adicionar -->
+            <section class="bg-white rounded-2xl shadow-sm border border-rose-100 p-8 mb-12 max-w-2xl mx-auto">
+                <h3 class="font-serif text-2xl mb-6 text-stone-800 border-b border-rose-50 pb-2">Adicionar Novo Trabalho</h3>
+                <form id="admin-form" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-stone-500 mb-1">Imagem do Serviço</label>
+                        <div class="flex items-center justify-center w-full">
+                            <label for="img-file" class="flex flex-col items-center justify-center w-full h-32 border-2 border-rose-200 border-dashed rounded-lg cursor-pointer bg-rose-50 hover:bg-rose-100 transition-colors">
+                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <svg class="w-8 h-8 mb-4 text-rose-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/></svg>
+                                    <p class="text-sm text-stone-500"><span class="font-semibold">Clique para enviar</span> ou arraste</p>
+                                </div>
+                                <input id="img-file" type="file" class="hidden" accept="image/*" required />
+                            </label>
+                        </div>
+                        <div id="img-preview-container" class="mt-4 hidden"><img id="img-preview" src="" alt="Preview" class="w-full h-48 object-cover rounded-lg shadow-sm border border-rose-100"></div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-stone-500 mb-1">Título</label>
+                        <input type="text" id="card-title" placeholder="ex: Nail Art Minimalista" required
+                            class="w-full bg-rose-50 border border-rose-200 rounded-lg px-4 py-3 text-sm text-stone-800 focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent transition-all">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-stone-500 mb-1">Categoria</label>
+                        <select id="card-category" required
+                            class="w-full bg-rose-50 border border-rose-200 rounded-lg px-4 py-3 text-sm text-stone-800 focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent transition-all appearance-none">
+                            <option value="Nail Art">Nail Art</option>
+                            <option value="Alongamento">Alongamento</option>
+                            <option value="Blindagem">Blindagem</option>
+                            <option value="Pés">Pés</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-stone-500 mb-1">Descrição</label>
+                        <textarea id="card-desc" placeholder="Breve descrição do serviço..." required rows="3"
+                            class="w-full bg-rose-50 border border-rose-200 rounded-lg px-4 py-3 text-sm text-stone-800 focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent transition-all"></textarea>
+                    </div>
+
+                    <button type="submit" 
+                        class="w-full bg-rose-300 text-stone-900 font-medium py-3 rounded-xl shadow-md hover:bg-rose-400 active:scale-95 transition-all mt-4">
+                        Adicionar ao Portfolio
+                    </button>
+                </form>
+            </section>
+
+            <!-- Lista de Cards -->
+            <section>
+                <div class="flex items-center justify-between mb-8">
+                    <h3 class="font-serif text-2xl text-stone-800">Gerenciar Portfolio</h3>
+                    <span class="text-xs text-stone-500 bg-white border border-rose-100 px-3 py-1 rounded-full">Clique em "Excluir" para remover</span>
                 </div>
                 
-                <div>
-                    <label class="block text-xs font-bold uppercase text-stone-500 mb-1">Título</label>
-                    <input type="text" id="card-title" placeholder="ex: Nail Art Minimalista" required
-                        class="w-full bg-rose-50 border border-rose-200 rounded-lg px-4 py-3 text-sm text-stone-800 focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent transition-all">
+                <div id="admin-cards-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                    <!-- Lista de cards para editar/excluir -->
                 </div>
+            </section>
+        </main>
+    </div>
 
-                <div>
-                    <label class="block text-xs font-bold uppercase text-stone-500 mb-1">Descrição</label>
-                    <textarea id="card-desc" placeholder="Breve descrição do serviço..." required rows="3"
-                        class="w-full bg-rose-50 border border-rose-200 rounded-lg px-4 py-3 text-sm text-stone-800 focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent transition-all"></textarea>
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-stone-900/50 backdrop-blur-sm transition-opacity"></div>
+        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+            <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-rose-100">
+                    <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                        <div class="sm:flex sm:items-start">
+                            <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-rose-100 sm:mx-0 sm:h-10 sm:w-10"><svg class="h-6 w-6 text-rose-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg></div>
+                            <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                                <h3 class="text-lg font-serif font-semibold leading-6 text-stone-900">Excluir Trabalho</h3>
+                                <div class="mt-2"><p class="text-sm text-stone-500">Tem certeza que deseja remover este item? Essa ação não pode ser desfeita.</p></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-rose-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                        <button type="button" id="confirm-delete-btn" class="inline-flex w-full justify-center rounded-full bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 sm:ml-3 sm:w-auto active:scale-95 transition-transform">Sim, excluir</button>
+                        <button type="button" id="cancel-delete-btn" class="mt-3 inline-flex w-full justify-center rounded-full bg-white px-3 py-2 text-sm font-semibold text-stone-900 shadow-sm ring-1 ring-inset ring-stone-300 hover:bg-stone-50 sm:mt-0 sm:w-auto active:scale-95 transition-transform">Cancelar</button>
+                    </div>
                 </div>
-
-                <button type="submit" 
-                    class="w-full bg-rose-300 text-stone-900 font-medium py-3 rounded-xl shadow-md hover:bg-rose-400 active:scale-95 transition-all mt-4">
-                    Adicionar ao Portfolio
-                </button>
-            </form>
-        </section>
-
-        <!-- Lista de Cards -->
-        <section>
-            <div class="flex items-center justify-between mb-8">
-                <h3 class="font-serif text-2xl text-stone-800">Gerenciar Portfolio</h3>
-                <span class="text-xs text-stone-500 bg-white border border-rose-100 px-3 py-1 rounded-full">Clique em "Excluir" para remover</span>
             </div>
-            
-            <div id="admin-cards-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-                <!-- Lista de cards para editar/excluir -->
-            </div>
-        </section>
-    </main>
+        </div>
+    </div>
 
-    <script src="script.js"></script>
+    <script src="utils.js"></script>
+    <script src="admin.js"></script>
 </body>
 </html>

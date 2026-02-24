@@ -1,0 +1,5 @@
+/* Remove o highlight azul no mobile */
+* { -webkit-tap-highlight-color: transparent; }
+
+/* Scroll suave */
+html { scroll-behavior: smooth; }
