@@ -10,7 +10,7 @@ class StorageManager {
     constructor() {
         this.keys = {
             settings: 'janayneSettings',
-            portfolio: 'janaynePortfolio'
+            portfolio: 'janaynePortfolio_v2'
         };
     }
 
@@ -25,24 +25,66 @@ class StorageManager {
             const defaultPortfolio = [
                 {
                     id: 1,
-                    image: 'assets/foto1.jpg',
+                    image: './assets/nail_art/foto1.jpg',
                     category: 'Nail Art',
                     title: 'Design Minimalista',
                     description: 'Traços finos e elegantes para quem ama sofisticação.'
                 },
                 {
                     id: 2,
-                    image: 'assets/foto1.jpg',
+                    image: './assets/nail_art/foto2.jpg',
+                    category: 'Nail Art',
+                    title: 'Geométrico Moderno',
+                    description: 'Linhas precisas e formas abstratas.'
+                },
+                {
+                    id: 3,
+                    image: './assets/nail_art/foto3.jpg',
+                    category: 'Nail Art',
+                    title: 'Glitter Ombré',
+                    description: 'Brilho degradê para ocasiões especiais.'
+                },
+                {
+                    id: 4,
+                    image: './assets/alongamento/foto1.jpg',
                     category: 'Alongamento',
                     title: 'Fibra de Vidro',
                     description: 'Resistência e naturalidade com acabamento premium.'
                 },
                 {
-                    id: 3,
-                    image: 'assets/foto1.jpg',
+                    id: 5,
+                    image: './assets/alongamento/foto2.jpg',
+                    category: 'Alongamento',
+                    title: 'Gel Moldado',
+                    description: 'Formato perfeito e durabilidade estendida.'
+                },
+                {
+                    id: 6,
+                    image: './assets/alongamento/foto3.jpg',
+                    category: 'Alongamento',
+                    title: 'Formato Almond',
+                    description: 'Elegância e conforto no dia a dia.'
+                },
+                {
+                    id: 7,
+                    image: './assets/blindagem/foto1.jpg',
                     category: 'Blindagem',
                     title: 'Banho de Gel',
                     description: 'Proteção e brilho intenso para fortalecer suas unhas.'
+                },
+                {
+                    id: 8,
+                    image: './assets/blindagem/foto2.jpg',
+                    category: 'Blindagem',
+                    title: 'Blindagem Diamante',
+                    description: 'Máxima proteção contra quebras.'
+                },
+                {
+                    id: 9,
+                    image: './assets/pes/foto1.jpg',
+                    category: 'Pés',
+                    title: 'Spa dos Pés',
+                    description: 'Renovação completa e hidratação profunda.'
                 }
             ];
             this.set(this.keys.portfolio, defaultPortfolio);

@@ -1,76 +1,103 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Janayne Studio | Nail Art & Design</title>
     <link rel="icon" type="image/png" href="assets/janayneLogo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Quicksand:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="../dist/output.css">
-    
+
     <!-- SEO & Open Graph (Premium) -->
-    <meta name="description" content="Transforme suas unhas em obras de arte. Janayne Studio oferece Nail Art exclusiva, Blindagem e Alongamento em Gel com acabamento de luxo. Agende seu horário.">
+    <meta name="description"
+        content="Transforme suas unhas em obras de arte. Janayne Studio oferece Nail Art exclusiva, Blindagem e Alongamento em Gel com acabamento de luxo. Agende seu horário.">
     <meta property="og:title" content="Janayne Studio | Nail Art & Design">
-    <meta property="og:description" content="Design de unhas exclusivo e sofisticado. Conheça nosso portfólio e agende seu horário.">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1519014816548-bf5fe059e98b?auto=format&fit=crop&w=1200&q=80">
+    <meta property="og:description"
+        content="Design de unhas exclusivo e sofisticado. Conheça nosso portfólio e agende seu horário.">
+    <meta property="og:image"
+        content="https://images.unsplash.com/photo-1519014816548-bf5fe059e98b?auto=format&fit=crop&w=1200&q=80">
     <meta property="og:type" content="website">
     <style>
         @keyframes shine {
-            0% { left: -100%; }
-            100% { left: 200%; }
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 200%;
+            }
         }
-        .animate-shine { animation: shine 1.5s infinite linear; }
-        .group:hover .hover-shine { animation: shine 0.75s ease-in-out forwards; }
+
+        .animate-shine {
+            animation: shine 1.5s infinite linear;
+        }
+
+        .group:hover .hover-shine {
+            animation: shine 0.75s ease-in-out forwards;
+        }
     </style>
 </head>
-<body class="bg-white text-stone-800 font-sans antialiased selection:bg-rose-200 selection:text-stone-900">
+
+<body class="bg-slate-50 text-gray-500 font-sans antialiased selection:bg-rose-200 selection:text-stone-900">
 
     <!-- Header Glassmorphism -->
-    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-transparent backdrop-blur-sm border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-end md:justify-center items-center relative h-16">
+    <header
+        class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-transparent backdrop-blur-sm border-b border-white/10">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex justify-end md:justify-center items-center relative h-16">
             <!-- Logo removida daqui -->
-            
+
             <!-- Desktop Nav -->
-            <nav class="hidden md:flex items-center gap-8 bg-white/60 backdrop-blur-2xl px-10 py-4 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/40 ring-1 ring-white/60 transition-all duration-500 hover:bg-white/80 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
-                <a href="#" class="relative text-sm font-medium text-stone-600 hover:text-rose-500 transition-colors duration-300 group">
+            <nav
+                class="hidden md:flex items-center gap-8 bg-white/60 backdrop-blur-2xl px-10 py-4 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/40 ring-1 ring-white/60 transition-all duration-500 hover:bg-white/80 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
+                <a href="#"
+                    class="relative text-sm font-medium text-stone-600 hover:text-rose-500 transition-colors duration-300 group">
                     Início
-                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-rose-400 transition-all duration-300 group-hover:w-full opacity-0 group-hover:opacity-100"></span>
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-0.5 bg-rose-400 transition-all duration-300 group-hover:w-full opacity-0 group-hover:opacity-100"></span>
                 </a>
-                <a href="#galeria" class="relative text-sm font-medium text-stone-600 hover:text-rose-500 transition-colors duration-300 group">
-                    Portfolio
-                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-rose-400 transition-all duration-300 group-hover:w-full opacity-0 group-hover:opacity-100"></span>
-                </a>
-                <a href="#reviews" class="relative text-sm font-medium text-stone-600 hover:text-rose-500 transition-colors duration-300 group">
+                <a href="#reviews"
+                    class="relative text-sm font-medium text-stone-600 hover:text-rose-500 transition-colors duration-300 group">
                     Depoimentos
-                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-rose-400 transition-all duration-300 group-hover:w-full opacity-0 group-hover:opacity-100"></span>
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-0.5 bg-rose-400 transition-all duration-300 group-hover:w-full opacity-0 group-hover:opacity-100"></span>
                 </a>
             </nav>
 
             <!-- Mobile Menu Button -->
-            <button id="mobile-menu-btn" class="md:hidden p-2 text-stone-800 focus:outline-none active:scale-90 transition-transform bg-white/50 rounded-full backdrop-blur-md">
-                <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            <button id="mobile-menu-btn"
+                class="md:hidden p-2 text-stone-800 focus:outline-none active:scale-90 transition-transform bg-white/50 rounded-full backdrop-blur-md">
+                <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16">
+                    </path>
+                </svg>
             </button>
         </div>
     </header>
 
     <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu" class="fixed inset-0 z-50 bg-white/90 backdrop-blur-3xl transition-transform duration-300 translate-x-full hidden flex flex-col justify-center items-center space-y-6 md:hidden px-6">
-        <button id="close-menu-btn" class="absolute top-6 right-6 p-4 text-stone-800 active:scale-90 transition-transform">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+    <div id="mobile-menu"
+        class="fixed inset-0 z-50 bg-white/90 backdrop-blur-3xl transition-transform duration-300 translate-x-full hidden flex flex-col justify-center items-center space-y-6 md:hidden px-6">
+        <button id="close-menu-btn"
+            class="absolute top-6 right-6 p-4 text-stone-800 active:scale-90 transition-transform">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
         </button>
-        
-        <a href="#galeria" class="flex items-center w-full max-w-xs p-4 bg-white border border-rose-100 rounded-2xl shadow-sm hover:bg-rose-50 hover:shadow-md transition-all duration-500 opacity-0 translate-y-4 group">
-            <div class="p-3 bg-rose-100 rounded-xl text-rose-500 group-hover:bg-rose-200 transition-colors mr-4">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-            </div>
-            <span class="font-serif text-xl text-stone-800 group-hover:text-rose-500 transition-colors">Portfolio</span>
-        </a>
 
-        <a href="#reviews" class="flex items-center w-full max-w-xs p-4 bg-white border border-rose-100 rounded-2xl shadow-sm hover:bg-rose-50 hover:shadow-md transition-all duration-500 opacity-0 translate-y-4 group">
+        <a href="#reviews"
+            class="flex items-center w-full max-w-xs p-4 bg-white border border-rose-100 rounded-2xl shadow-sm hover:bg-rose-50 hover:shadow-md transition-all duration-500 opacity-0 translate-y-4 group">
             <div class="p-3 bg-rose-100 rounded-xl text-rose-500 group-hover:bg-rose-200 transition-colors mr-4">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z">
+                    </path>
+                </svg>
             </div>
-            <span class="font-serif text-xl text-stone-800 group-hover:text-rose-500 transition-colors">Depoimentos</span>
+            <span
+                class="font-serif text-xl text-stone-800 group-hover:text-rose-500 transition-colors">Depoimentos</span>
         </a>
     </div>
 
@@ -78,7 +105,8 @@
     <section class="relative pt-32 pb-20 px-6 md:pt-40 md:pb-32 overflow-hidden">
         <!-- Parallax Background Image -->
         <div class="absolute inset-0 z-0">
-            <img id="hero-parallax-img" src="assets/foto1.jpg" alt="Background Texture" class="w-full h-[130%] -top-[15%] absolute object-cover opacity-70 will-change-transform">
+            <img id="hero-parallax-img" src="assets/foto1.jpg" alt="Background Texture"
+                class="w-full h-[130%] -top-[15%] absolute object-cover opacity-70 will-change-transform">
             <!-- Overlay suave para garantir leitura do texto -->
             <div class="absolute inset-0 bg-gradient-to-b from-white/40 via-white/70 to-white"></div>
             <!-- Gradiente superior para legibilidade do menu -->
@@ -87,79 +115,117 @@
 
         <div class="max-w-4xl mx-auto text-center relative z-10">
             <div class="flex justify-center mb-8 opacity-0 animate-fade-in-up -ml-12" style="animation-delay: 0.1s;">
-                <img src="assets/janayneLogo.png" alt="Janayne Studio Logo" class="hero-logo h-44 w-auto object-contain animate-pulse-glow hover:animate-none hover:drop-shadow-[0_0_30px_rgba(244,93,126,0.8)] transition-all duration-300">
+                <img src="assets/janayneLogo.png" alt="Janayne Studio Logo"
+                    class="hero-logo h-44 w-auto object-contain animate-pulse-glow hover:animate-none hover:drop-shadow-[0_0_30px_rgba(244,93,126,0.8)] transition-all duration-300">
             </div>
-            <span class="block text-rose-400 text-xs font-bold tracking-[0.3em] uppercase mb-6 opacity-0 animate-fade-in-up">Nail Designer & Artist</span>
-            <h1 class="font-serif text-5xl md:text-7xl text-stone-800 leading-tight mb-6 opacity-0 animate-fade-in-up" style="animation-delay: 0.2s;">
-                Arte <span class="font-light text-rose-400 italic">e</span> Design <br> <span class="italic text-stone-600 inline-block overflow-hidden whitespace-nowrap border-r-2 border-rose-400 animate-typewriter align-bottom" style="max-width: 0">para suas mãos.</span>
+            <span
+                class="block text-rose-400 text-xs font-bold tracking-[0.3em] uppercase mb-6 opacity-0 animate-fade-in-up">Nail
+                Designer & Artist</span>
+            <h1 class="font-serif text-5xl md:text-7xl text-stone-800 leading-tight mb-6 opacity-0 animate-fade-in-up"
+                style="animation-delay: 0.2s;">
+                Arte <span class="font-light text-rose-400 italic">e</span> Design <br> <span
+                    class="italic text-stone-600 inline-block overflow-hidden whitespace-nowrap border-r-2 border-rose-400 animate-typewriter align-bottom"
+                    style="max-width: 0">para suas mãos.</span>
             </h1>
-            <p class="text-stone-600 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light leading-relaxed opacity-0 animate-fade-in-up" style="animation-delay: 0.4s;">
-                Transformando unhas em obras de arte exclusivas. Onde a precisão técnica encontra a sofisticação minimalista.
+            <p class="text-stone-600 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light leading-relaxed opacity-0 animate-fade-in-up"
+                style="animation-delay: 0.4s;">
+                Transformando unhas em obras de arte exclusivas. Onde a precisão técnica encontra a sofisticação
+                minimalista.
             </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4 opacity-0 animate-fade-in-up" style="animation-delay: 0.6s;">
-                <a href="https://wa.me/5561982412536?text=Ol%C3%A1%2C%20como%20fa%C3%A7o%20para%20agendar%20um%20hor%C3%A1rio%20com%20voc%C3%AAs%3F" class="whatsapp-link bg-rose-300 text-stone-900 px-8 py-4 rounded-full font-medium shadow-md shadow-rose-200 hover:bg-rose-400 hover:shadow-[0_0_20px_rgba(244,93,126,0.6)] transition-all active:scale-95">
+            <div class="flex flex-col sm:flex-row justify-center gap-4 opacity-0 animate-fade-in-up"
+                style="animation-delay: 0.6s;">
+                <a href="https://wa.me/5561982412536?text=Ol%C3%A1%2C%20como%20fa%C3%A7o%20para%20agendar%20um%20hor%C3%A1rio%20com%20voc%C3%AAs%3F"
+                    class="whatsapp-link bg-rose-300 text-stone-900 px-8 py-4 rounded-full font-medium shadow-md shadow-rose-200 hover:bg-rose-400 hover:shadow-[0_0_20px_rgba(244,93,126,0.6)] transition-all active:scale-95">
                     Agendar Horário
-                </a>
-                <a href="#galeria" class="bg-white text-stone-800 border border-rose-100 px-8 py-4 rounded-full font-medium shadow-sm hover:bg-rose-50 transition-all active:scale-95">
-                    Ver Portfolio
                 </a>
             </div>
         </div>
         <!-- Decorative Background Elements -->
-        <div class="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-60"></div>
-        <div class="absolute bottom-0 right-0 w-96 h-96 bg-rose-200 rounded-full blur-3xl translate-x-1/3 translate-y-1/3 pointer-events-none opacity-30"></div>
+        <div
+            class="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-60">
+        </div>
+        <div
+            class="absolute bottom-0 right-0 w-96 h-96 bg-rose-200 rounded-full blur-3xl translate-x-1/3 translate-y-1/3 pointer-events-none opacity-30">
+        </div>
     </section>
 
-    <main class="max-w-7xl mx-auto px-6 pb-24">
-        
-        <!-- Galeria Grid -->
-        <section id="galeria" class="py-12">
-            <div class="flex items-end justify-between mb-12 border-b border-rose-100 pb-4">
-                <h3 class="font-serif text-3xl md:text-4xl text-stone-800">Portfolio Selecionado</h3>
-                <span class="hidden md:block text-xs font-bold tracking-widest text-rose-400 uppercase">Últimos Trabalhos</span>
-            </div>
+    <main class="max-w-5xl mx-auto px-4 md:px-8 pb-24">
 
-            <!-- Botões de Filtro -->
-            <div class="flex flex-wrap gap-3 mb-8 justify-center md:justify-start">
-                <button class="filter-btn active px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-rose-400 text-white shadow-md hover:shadow-lg transform hover:-translate-y-0.5" data-category="all">Todos</button>
-                <button class="filter-btn px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-white text-stone-600 border border-rose-100 hover:bg-rose-50 hover:border-rose-200" data-category="Nail Art">Nail Art</button>
-                <button class="filter-btn px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-white text-stone-600 border border-rose-100 hover:bg-rose-50 hover:border-rose-200" data-category="Alongamento">Alongamento</button>
-                <button class="filter-btn px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-white text-stone-600 border border-rose-100 hover:bg-rose-50 hover:border-rose-200" data-category="Blindagem">Blindagem</button>
-                <button class="filter-btn px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-white text-stone-600 border border-rose-100 hover:bg-rose-50 hover:border-rose-200" data-category="Pés">Pés</button>
-            </div>
+        <!-- Galeria de Portfólio (Premium UI) -->
+        <section id="galeria" class="py-24">
+            <div class="max-w-5xl mx-auto">
+                <div class="flex flex-col items-center mb-16 text-center">
+                    <span class="text-xs font-bold tracking-widest text-zinc-500 uppercase mb-3">Portfolio
+                        Selecionado</span>
+                    <h3 class="font-serif text-4xl md:text-5xl text-zinc-900 tracking-tight">Design <span
+                            class="text-zinc-400 italic font-light">de</span> Luxo</h3>
+                </div>
 
-            <!-- Container onde os cards serão injetados via JS -->
-            <div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[300px]">
-                <!-- O conteúdo será carregado dinamicamente -->
+                <!-- Container dos Botões de Filtro -->
+                <div id="portfolio-filters" class="flex flex-wrap justify-center gap-3 mb-16"></div>
+
+                <!-- Container onde os cards serão injetados (Estático via CSS) -->
+                <div id="portfolio-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 w-full">
+                </div>
             </div>
         </section>
 
         <!-- Depoimentos Estáticos (Luxo) -->
         <section id="reviews" class="py-20 mt-12 border-t border-rose-50">
             <h3 class="font-serif text-3xl text-center mb-16 text-stone-800">O que dizem minhas clientes</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <!-- Review 1 -->
                 <div class="bg-rose-50/50 p-8 rounded-2xl border border-rose-100 hover:shadow-sm transition-shadow">
                     <div class="flex text-rose-300 mb-4 text-lg">★★★★★</div>
-                    <p class="text-stone-600 text-sm leading-relaxed mb-6 italic">"Simplesmente impecável. A Janayne tem uma mão super leve e o acabamento é de outro mundo. O ambiente é super relaxante."</p>
+                    <p class="text-stone-600 text-sm leading-relaxed mb-6 italic">"Simplesmente impecável. A Janayne tem
+                        uma mão super leve e o acabamento é de outro mundo. O ambiente é super relaxante."</p>
                     <div class="font-serif font-bold text-stone-800">Mariana Costa</div>
                 </div>
                 <!-- Review 2 -->
-                <div class="bg-rose-50/50 p-8 rounded-2xl border border-rose-100 hover:shadow-sm transition-shadow transform md:-translate-y-4">
+                <div
+                    class="bg-rose-50/50 p-8 rounded-2xl border border-rose-100 hover:shadow-sm transition-shadow transform md:-translate-y-4">
                     <div class="flex text-rose-300 mb-4 text-lg">★★★★★</div>
-                    <p class="text-stone-600 text-sm leading-relaxed mb-6 italic">"Faço minhas unhas há 2 anos e não troco por nada. A durabilidade do gel é incrível e as artes são sempre exclusivas."</p>
+                    <p class="text-stone-600 text-sm leading-relaxed mb-6 italic">"Faço minhas unhas há 2 anos e não
+                        troco por nada. A durabilidade do gel é incrível e as artes são sempre exclusivas."</p>
                     <div class="font-serif font-bold text-stone-800">Fernanda Silva</div>
                 </div>
                 <!-- Review 3 -->
                 <div class="bg-rose-50/50 p-8 rounded-2xl border border-rose-100 hover:shadow-sm transition-shadow">
                     <div class="flex text-rose-300 mb-4 text-lg">★★★★★</div>
-                    <p class="text-stone-600 text-sm leading-relaxed mb-6 italic">"Profissionalismo e elegância definem. Amei o atendimento e o resultado final ficou super natural."</p>
+                    <p class="text-stone-600 text-sm leading-relaxed mb-6 italic">"Profissionalismo e elegância definem.
+                        Amei o atendimento e o resultado final ficou super natural."</p>
                     <div class="font-serif font-bold text-stone-800">Camila Oliveira</div>
                 </div>
             </div>
         </section>
 
     </main>
+
+    <!-- Modal de Visualização (Lightbox) -->
+    <div id="image-modal" class="fixed inset-0 z-[100] hidden" aria-hidden="true">
+        <!-- Overlay Escuro -->
+        <div class="absolute inset-0 bg-zinc-900/90 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
+
+        <!-- Conteúdo do Modal -->
+        <div class="relative z-10 flex items-center justify-center min-h-screen p-4">
+            <div
+                class="bg-white rounded-[2rem] shadow-2xl max-w-3xl w-full overflow-hidden transform transition-all scale-100">
+                <div class="relative">
+                    <button onclick="closeModal()"
+                        class="absolute top-4 right-4 bg-white/80 hover:bg-white text-zinc-900 rounded-full p-2 transition-colors z-20"><svg
+                            class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg></button>
+                    <img id="modal-image" src="" alt="Detalhe" class="w-full h-[60vh] object-cover">
+                </div>
+                <div class="p-8 text-center text-zinc-900">
+                    <h3 id="modal-title" class="text-2xl font-medium tracking-tight mb-2"></h3>
+                    <p id="modal-desc" class="text-zinc-500 text-base"></p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer class="bg-stone-900 text-rose-50 py-8 text-center">
         <h2 class="salon-name font-serif text-2xl mb-4 text-rose-200">Janayne Studio</h2>
@@ -168,12 +234,19 @@
     </footer>
 
     <!-- Floating WhatsApp Button (Hidden initially) -->
-    <a id="whatsapp-float" href="https://wa.me/5561982412536?text=Ol%C3%A1%2C%20como%20fa%C3%A7o%20para%20agendar%20um%20hor%C3%A1rio%20com%20voc%C3%AAs%3F" target="_blank" class="whatsapp-link fixed bottom-24 right-6 z-50 bg-rose-400 text-white p-4 rounded-full shadow-xl hover:bg-rose-500 transition-all duration-500 transform hover:scale-110 opacity-0 translate-y-10 pointer-events-none flex items-center justify-center" aria-label="Conversar no WhatsApp">
-        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    <a id="whatsapp-float"
+        href="https://wa.me/5561982412536?text=Ol%C3%A1%2C%20como%20fa%C3%A7o%20para%20agendar%20um%20hor%C3%A1rio%20com%20voc%C3%AAs%3F"
+        target="_blank"
+        class="whatsapp-link fixed bottom-24 right-6 z-50 bg-rose-400 text-white p-4 rounded-full shadow-xl hover:bg-rose-500 transition-all duration-500 transform hover:scale-110 opacity-0 translate-y-10 pointer-events-none flex items-center justify-center"
+        aria-label="Conversar no WhatsApp">
+        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24">
+            <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+        </svg>
     </a>
 
     <script src="js/utils.js"></script>
-    <script src="js/portfolio.js"></script>
     <script src="js/index.js"></script>
 </body>
+
 </html>
