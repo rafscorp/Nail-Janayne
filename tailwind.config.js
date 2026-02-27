@@ -16,17 +16,23 @@ module.exports = {
           800: 'rgb(var(--color-text) / <alpha-value>)',
           900: '#1c1917',
           600: '#57534e'
-        }
+        },
+        'btn-global': 'rgb(var(--color-btn-global) / <alpha-value>)',
+        'wa-icon': 'rgb(var(--color-wa-icon) / <alpha-value>)',
+        'nav-glass': 'rgb(var(--color-nav-glass) / <alpha-value>)',
+        'card-bg': 'rgb(var(--color-card-bg) / <alpha-value>)',
+        'card-btn': 'rgb(var(--color-card-btn) / <alpha-value>)'
       },
       fontFamily: {
         serif: ['"Playfair Display"', 'serif'],
-        sans: ['"Quicksand"', 'sans-serif'],
+        sans: ['"Nunito"', 'sans-serif'],
       },
       animation: {
         'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
         'pulse-glow': 'pulseGlow 3s infinite',
         'typewriter': 'typewriter 6s infinite, blink 1s step-end infinite',
         'gentle-bounce': 'gentleBounce 3s infinite',
+        'micro-bounce': 'microBounce 3s ease-in-out infinite',
         'fade-in': 'fadeIn 1.2s ease-out',
       },
       keyframes: {
@@ -55,6 +61,10 @@ module.exports = {
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
+        },
+        microBounce: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-5px)' },
         }
       }
     }

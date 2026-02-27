@@ -4,10 +4,71 @@
 
 @layer base {
   :root {
-    --color-primary: 244 93 126; /* #f45d7e */
-    --color-light: 255 238 241;  /* #ffeef1 */
-    --color-text: 41 37 36;      /* #292524 */
+    --color-primary: 244 93 126;
+    /* #f45d7e */
+    --color-light: 255 238 241;
+    /* #ffeef1 */
+    --color-text: 41 37 36;
+    /* #292524 */
   }
-  * { -webkit-tap-highlight-color: transparent; }
-  html { scroll-behavior: smooth; }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Cropper.js Premium Pink Overrides */
+  .cropper-view-box {
+    outline-color: #f43f5e !important;
+    outline-width: 2px !important;
+  }
+
+  .cropper-line {
+    background-color: #f43f5e !important;
+  }
+
+  .cropper-point {
+    background-color: #f43f5e !important;
+    border-radius: 50% !important;
+    width: 10px !important;
+    height: 10px !important;
+    opacity: 0.9 !important;
+  }
+}
+
+@layer utilities {
+  .animate-soft-bounce {
+    animation: soft-bounce 2s ease-in-out 2;
+  }
+
+  @keyframes soft-bounce {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+
+  .animate-slide-up-fade {
+    animation: slide-up-fade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes slide-up-fade {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }

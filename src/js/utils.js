@@ -19,75 +19,22 @@ class StorageManager {
      * As imagens agora são apenas para referência e serão substituídas por Base64.
      */
     init() {
-        // Verifica se não existe ou se a lista está vazia (ex: apagou tudo sem querer)
+        const defaultPortfolio = [
+            { id: 1, image: 'assets/foto1.jpg', category: 'Nail Art', title: 'Nail Art Minimalista', description: 'Design sofisticado com traços finos e geometria delicada.', btnColor: '#fda4af' },
+            { id: 2, image: 'assets/foto2.jpg', category: 'Alongamento', title: 'Alongamento em Fibra', description: 'Resistência e naturalidade com acabamento premium.', btnColor: '#fda4af' },
+            { id: 3, image: 'assets/foto3.jpg', category: 'Blindagem', title: 'Blindagem Diamante', description: 'Proteção extra para o crescimento saudável das unhas.', btnColor: '#fda4af' },
+            { id: 4, image: 'assets/foto4.jpg', category: 'Nail Art', title: 'Francesinha Moderna', description: 'A clássica elegância reinventada com toques contemporâneos.', btnColor: '#fda4af' },
+            { id: 5, image: 'assets/foto5.jpg', category: 'Pés', title: 'Spa dos Pés', description: 'Renovação completa, hidratação profunda e relaxamento.', btnColor: '#fda4af' },
+            { id: 6, image: 'assets/foto6.jpg', category: 'Esmaltação', title: 'Esmaltação em Gel', description: 'Brilho intenso e durabilidade.', btnColor: '#fda4af' }
+        ];
+
+        // Restore default testing data as requested by user
         const currentData = this.get(this.keys.portfolio);
-        if (currentData.length === 0) {
-            const defaultPortfolio = [
-                {
-                    id: 1,
-                    image: './assets/nail_art/foto1.jpg',
-                    category: 'Nail Art',
-                    title: 'Design Minimalista',
-                    description: 'Traços finos e elegantes para quem ama sofisticação.'
-                },
-                {
-                    id: 2,
-                    image: './assets/nail_art/foto2.jpg',
-                    category: 'Nail Art',
-                    title: 'Geométrico Moderno',
-                    description: 'Linhas precisas e formas abstratas.'
-                },
-                {
-                    id: 3,
-                    image: './assets/nail_art/foto3.jpg',
-                    category: 'Nail Art',
-                    title: 'Glitter Ombré',
-                    description: 'Brilho degradê para ocasiões especiais.'
-                },
-                {
-                    id: 4,
-                    image: './assets/alongamento/foto1.jpg',
-                    category: 'Alongamento',
-                    title: 'Fibra de Vidro',
-                    description: 'Resistência e naturalidade com acabamento premium.'
-                },
-                {
-                    id: 5,
-                    image: './assets/alongamento/foto2.jpg',
-                    category: 'Alongamento',
-                    title: 'Gel Moldado',
-                    description: 'Formato perfeito e durabilidade estendida.'
-                },
-                {
-                    id: 6,
-                    image: './assets/alongamento/foto3.jpg',
-                    category: 'Alongamento',
-                    title: 'Formato Almond',
-                    description: 'Elegância e conforto no dia a dia.'
-                },
-                {
-                    id: 7,
-                    image: './assets/blindagem/foto1.jpg',
-                    category: 'Blindagem',
-                    title: 'Banho de Gel',
-                    description: 'Proteção e brilho intenso para fortalecer suas unhas.'
-                },
-                {
-                    id: 8,
-                    image: './assets/blindagem/foto2.jpg',
-                    category: 'Blindagem',
-                    title: 'Blindagem Diamante',
-                    description: 'Máxima proteção contra quebras.'
-                },
-                {
-                    id: 9,
-                    image: './assets/pes/foto1.jpg',
-                    category: 'Pés',
-                    title: 'Spa dos Pés',
-                    description: 'Renovação completa e hidratação profunda.'
-                }
-            ];
+        if (currentData.length === 0 || !currentData[0].image || currentData[0].image === '') {
             this.set(this.keys.portfolio, defaultPortfolio);
+        } else if (localStorage.getItem('janayne_force_restore') !== 'done') {
+            this.set(this.keys.portfolio, defaultPortfolio);
+            localStorage.setItem('janayne_force_restore', 'done');
         }
     }
 
@@ -167,7 +114,7 @@ class ImageOptimizer {
                         console.warn('WebP não suportado, usando JPEG como fallback.');
                         dataUrl = canvas.toDataURL(this.fallbackFormat, this.quality);
                     }
-                    
+
                     resolve(dataUrl);
                 };
                 img.onerror = reject;
@@ -205,31 +152,36 @@ class UIManager {
     showToast(message, type = 'success') {
         const toast = document.createElement('div');
         const bgColor = type === 'success' ? 'bg-emerald-500' : 'bg-red-500';
-        const icon = type === 'success' ? 
-            `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>` : 
+        const icon = type === 'success' ?
+            `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>` :
             `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>`;
         toast.className = `fixed bottom-5 right-5 z-[100] flex items-center gap-3 px-5 py-3 rounded-2xl shadow-2xl text-white transform translate-y-20 opacity-0 transition-all duration-300 ease-out ${bgColor}`;
         toast.innerHTML = `${icon} <span class="font-medium text-sm">${message}</span>`;
         document.body.appendChild(toast);
         requestAnimationFrame(() => toast.classList.remove('translate-y-20', 'opacity-0'));
-        setTimeout(() => { 
-            toast.classList.add('translate-y-20', 'opacity-0'); 
-            setTimeout(() => toast.remove(), 300); 
+        setTimeout(() => {
+            toast.classList.add('translate-y-20', 'opacity-0');
+            setTimeout(() => toast.remove(), 300);
         }, 3500);
     }
-    
+
     applyTheme() {
         const settings = storageManager.getSettings();
         const root = document.documentElement;
 
         const hexToRgb = (hex) => {
-            if (!hex || hex.length < 4) return null;
+            if (!hex) return null;
+            if (hex.startsWith('rgba') || hex.startsWith('rgb')) {
+                const match = hex.match(/\d+/g);
+                if (match && match.length >= 3) return `${match[0]} ${match[1]} ${match[2]}`;
+            }
+            if (hex.length < 4) return null;
             let r = 0, g = 0, b = 0;
-            if (hex.length === 4) {
+            if (hex.length === 4 || hex.length === 5) {
                 r = parseInt(hex[1] + hex[1], 16);
                 g = parseInt(hex[2] + hex[2], 16);
                 b = parseInt(hex[3] + hex[3], 16);
-            } else if (hex.length === 7) {
+            } else if (hex.length >= 7) {
                 r = parseInt(hex.slice(1, 3), 16);
                 g = parseInt(hex.slice(3, 5), 16);
                 b = parseInt(hex.slice(5, 7), 16);
@@ -241,21 +193,31 @@ class UIManager {
             '--color-primary': hexToRgb(settings.primaryColor || '#f45d7e'),
             '--color-light': hexToRgb(settings.lightColor || '#ffeef1'),
             '--color-text': hexToRgb(settings.textColor || '#292524'),
+            '--color-btn-global': hexToRgb(settings.globalBtnColor || '#fda4af'),
+            '--color-wa-icon': hexToRgb(settings.waIconColor || '#fb7185'),
+            '--color-nav-glass': hexToRgb(settings.navGlassColor || '#ffffff'),
+            '--color-card-bg': hexToRgb(settings.cardBgColor || '#ffffff'),
+            '--color-card-btn': hexToRgb(settings.cardBtnColor || '#fda4af')
         };
 
         for (const [key, value] of Object.entries(theme)) {
             if (value) root.style.setProperty(key, value);
         }
-        
+
         // Nome do Salão e WhatsApp
         if (settings.salonName) {
             document.querySelectorAll('.salon-name').forEach(el => el.textContent = settings.salonName);
         }
         if (settings.whatsappLink) {
-             document.querySelectorAll('.whatsapp-link').forEach(el => el.href = settings.whatsappLink);
+            // Se o usuário digitou apenas números, formata como link wa.me
+            let finalLink = settings.whatsappLink;
+            if (!finalLink.startsWith('http')) {
+                finalLink = `https://wa.me/${finalLink.replace(/[^0-9]/g, '')}?text=Olá,%20como%20faço%20para%20agendar%20um%20horário%20com%20vocês?`;
+            }
+            document.querySelectorAll('.whatsapp-link').forEach(el => el.href = finalLink);
         }
 
-        // Imagem de Fundo
+        // Imagem de Fundo Hero
         if (settings.heroImage) {
             const heroImg = document.getElementById('hero-parallax-img');
             if (heroImg) heroImg.src = settings.heroImage;
