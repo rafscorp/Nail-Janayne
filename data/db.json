@@ -1,0 +1,137 @@
+{
+  "settings": {
+    "heroImage": "assets/foto1.jpg",
+    "primaryColor": "#f45d7e",
+    "globalBtnColor": "#fda4af",
+    "waIconColor": "#fb7185",
+    "navGlassColor": "#ffffff",
+    "cardBgColor": "#ffffff",
+    "cardBtnColor": "#fda4af",
+    "salonName": "Janayne Studio",
+    "whatsappLink": "5561982412536",
+    "logoImage": "assets/janayneLogo.png",
+    "heroSubtitle": "Nail Designer",
+    "heroTitle1": "Design & Beleza",
+    "heroTitle2": "para as suas mãos.",
+    "heroDescription": "Transformando unhas em obras de arte exclusivas. Onde a precisão técnica encontra a sofisticação minimalista.",
+    "contactInstagram": "https://www.instagram.com/studiojanaynesilva/",
+    "contactWhatsappText": "(61) 98241-2536"
+  },
+  "portfolio": [
+    {
+      "id": 1,
+      "image": "assets/foto1.jpg",
+      "category": "Nail Art",
+      "title": "Nail Art Minimalista",
+      "description": "Design sofisticado com traços finos e geometria delicada."
+    },
+    {
+      "id": 2,
+      "image": "assets/foto2.jpg",
+      "category": "Alongamento",
+      "title": "Alongamento em Fibra",
+      "description": "Resistência e naturalidade com acabamento premium."
+    },
+    {
+      "id": 3,
+      "image": "assets/foto3.jpg",
+      "category": "Blindagem",
+      "title": "Blindagem Diamante",
+      "description": "Proteção extra para o crescimento saudável das unhas."
+    },
+    {
+      "id": 4,
+      "image": "assets/foto4.jpg",
+      "category": "Nail Art",
+      "title": "Francesinha Moderna",
+      "description": "A clássica elegância reinventada com toques contemporâneos."
+    },
+    {
+      "id": 5,
+      "image": "assets/foto5.jpg",
+      "category": "Pés",
+      "title": "Spa dos Pés",
+      "description": "Renovação completa, hidratação profunda e relaxamento."
+    },
+    {
+      "id": 6,
+      "image": "assets/foto6.jpg",
+      "category": "Esmaltação",
+      "title": "Esmaltação em Gel",
+      "description": "Brilho intenso e durabilidade."
+    }
+  ],
+  "professionals": [
+    {
+      "id": 1,
+      "name": "Janayne",
+      "role": "Nail Artist & Designe",
+      "description": "Especialista em Nail Art e alongamentos em gel com padrão de excelência. Focada na saúde natural e design sofisticado para você.",
+      "instagram": "https://instagram.com/janayne_studio",
+      "image": "assets/foto3.jpg"
+    },
+    {
+      "description": "Profissional de alto padrão integrante do Janayne Studio. Focada em extensões delicadas e minimalistas que encantam.",
+      "id": 2,
+      "image": "assets/foto3.jpg",
+      "instagram": "https://instagram.com/janayne_studio",
+      "name": "Ana Silva",
+      "role": "Especialista em Gel"
+    },
+    {
+      "description": "Artista de unhas especializada em formatos europeus e esmaltação em gel de altíssima durabilidade.",
+      "id": 3,
+      "image": "assets/foto3.jpg",
+      "instagram": "https://instagram.com/janayne_studio",
+      "name": "Beatriz Lima",
+      "role": "Designer de Unhas"
+    }
+  ],
+  "reviews": [
+    {
+      "id": 1,
+      "name": "Mariana Costa",
+      "text": "Simplesmente impecável. A Janayne tem uma mão super leve e o acabamento é de outro mundo. O ambiente é super relaxante.",
+      "rating": 5
+    },
+    {
+      "id": 2,
+      "name": "Fernanda Silva",
+      "text": "Faço minhas unhas há 2 anos e não troco por nada. A durabilidade do gel é incrível e as artes são sempre exclusivas.",
+      "rating": 5
+    },
+    {
+      "id": 3,
+      "name": "Camila Oliveira",
+      "text": "Profissionalismo e elegância definem. Amei o atendimento e o resultado final ficou super natural.",
+      "rating": 5
+    },
+    {
+      "id": 4,
+      "name": "Letícia Almeida",
+      "text": "Melhor estúdio de unhas de Brasília! Sempre saio de lá me sentindo renovada. Recomendo demais!",
+      "rating": 5
+    },
+    {
+      "id": 5,
+      "name": "Juliana Ramos",
+      "text": "As unhas ficam perfeitas por semanas! A atenção aos detalhes é impressionante. Só tenho elogios!",
+      "rating": 5
+    },
+    {
+      "id": 6,
+      "name": "Isabela Mendes",
+      "text": "Atendimento impecável do começo ao fim. O espaço é lindo e as profissionais são muito talentosas.",
+      "rating": 5
+    }
+  ],
+  "units": [
+    {
+      "id": 1,
+      "name": "Sudoeste",
+      "address": "Shopping Sudoeste",
+      "hours": "Seg-Sex: 09:00 - 19:00\nSábado: 09:00 - 15:00",
+      "phone": "(61) 98241-2536"
+    }
+  ]
+}

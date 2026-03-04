@@ -1,7 +1,7 @@
 /**
  * admin.js - Lógica de admin totalmente refatorada e modernizada.
  */
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('JanayneDataLoaded', () => {
     const adminLogin = document.getElementById('admin-login');
     const adminContent = document.getElementById('admin-content');
 
@@ -76,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const inputHash = await this.sha256(password);
             if (inputHash === this.targetHash) {
                 sessionStorage.setItem('adminLogged', 'true');
+                sessionStorage.setItem('adminToken', inputHash);
                 this.checkSession();
                 uiManager.showToast('Bem-vinda de volta!', 'success');
             } else {
@@ -88,6 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         logout() {
             sessionStorage.removeItem('adminLogged');
+            sessionStorage.removeItem('adminToken');
             window.location.reload();
         },
 
@@ -484,7 +486,8 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     const AdminApp = {
         _localState: {
-            heroImageBase64: ''
+            heroImageBase64: '',
+            logoImageBase64: ''
         },
 
         init() {
@@ -534,6 +537,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loadCurrentSettings() {
             const settings = storageManager.getSettings();
             document.getElementById('hero-preview').src = settings.heroImage || 'assets/foto1.jpg';
+            document.getElementById('logo-preview').src = settings.logoImage || 'assets/janayneLogo.png';
 
             if (settings.primaryColor) this.setPaletteActive('color-primary', settings.primaryColor);
             if (settings.globalBtnColor) this.setPaletteActive('color-global-btn', settings.globalBtnColor);
@@ -542,8 +546,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (settings.navGlassColor) this.setPaletteActive('color-nav-glass', settings.navGlassColor);
             if (settings.cardBgColor) this.setPaletteActive('color-card-bg', settings.cardBgColor);
             if (settings.cardBtnColor) this.setPaletteActive('color-card-btn', settings.cardBtnColor);
+
             if (settings.salonName) document.getElementById('salon-name').value = settings.salonName;
+            if (settings.heroSubtitle) document.getElementById('hero-subtitle').value = settings.heroSubtitle;
+            if (settings.heroTitle1) document.getElementById('hero-title1').value = settings.heroTitle1;
+            if (settings.heroTitle2) document.getElementById('hero-title2').value = settings.heroTitle2;
+            if (settings.heroDescription) document.getElementById('hero-description').value = settings.heroDescription;
             if (settings.whatsappLink) document.getElementById('whatsapp-link').value = settings.whatsappLink;
+            if (settings.contactInstagram) document.getElementById('instagram-link').value = settings.contactInstagram;
         },
 
 
@@ -553,15 +563,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const originalText = button.innerHTML;
             button.disabled = true;
-            button.innerHTML = '<span class="animate-pulse">Processando...</span>';
+            button.innerHTML = '<span class="animate-pulse">Enviando imagem...</span>';
 
             try {
+                // 1. Otimiza no cliente
                 const base64 = await imageOptimizer.process(file);
-                this._localState.heroImageBase64 = base64;
-                document.getElementById('hero-preview').src = base64;
-                uiManager.showToast('Imagem pronta para salvar.');
+
+                // 2. Envia para o servidor para virar arquivo físico
+                const token = sessionStorage.getItem('adminToken') || '';
+                const res = await fetch('/api/upload', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ image: base64 })
+                });
+
+                if (!res.ok) throw new Error('Falha no upload para o servidor');
+                const data = await res.json();
+
+                if (data.filepath) {
+                    if (type === 'hero') {
+                        this._localState.heroImageBase64 = data.filepath;
+                        document.getElementById('hero-preview').src = data.filepath + '?t=' + new Date().getTime();
+                    } else if (type === 'logo') {
+                        this._localState.logoImageBase64 = data.filepath;
+                        document.getElementById('logo-preview').src = data.filepath + '?t=' + new Date().getTime();
+                    }
+                    uiManager.showToast('Imagem processada e carregada.');
+                } else {
+                    throw new Error('Servidor não retornou o caminho do arquivo.');
+                }
             } catch (error) {
-                console.error("Erro ao otimizar imagem:", error);
+                console.error("Erro ao otimizar/enviar imagem:", error);
                 uiManager.showToast('Falha ao processar imagem.', 'error');
             } finally {
                 button.disabled = false;
@@ -584,6 +619,13 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('hero-file')?.addEventListener('change', (e) => {
                 if (e.target.files[0]) {
                     this.handleImageUpload(e.target.files[0], 'hero');
+                    markDirty();
+                }
+            });
+
+            document.getElementById('logo-file')?.addEventListener('change', (e) => {
+                if (e.target.files[0]) {
+                    this.handleImageUpload(e.target.files[0], 'logo');
                     markDirty();
                 }
             });
@@ -619,9 +661,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             settingsForm?.addEventListener('submit', async (e) => {
                 e.preventDefault();
+
+                const saveBtn = document.getElementById('save-settings-btn');
+                const originalText = saveBtn.innerHTML;
+                saveBtn.disabled = true;
+                saveBtn.innerHTML = '<span class="animate-pulse">Salvando e Aplicando...</span>';
+
                 const currentSettings = storageManager.getSettings();
                 const settings = {
                     heroImage: this._localState.heroImageBase64 || currentSettings.heroImage,
+                    logoImage: this._localState.logoImageBase64 || currentSettings.logoImage,
                     primaryColor: document.getElementById('color-primary').value,
                     globalBtnColor: document.getElementById('color-global-btn').value,
                     waIconColor: document.getElementById('color-wa-icon').value,
@@ -629,13 +678,26 @@ document.addEventListener('DOMContentLoaded', () => {
                     cardBgColor: document.getElementById('color-card-bg').value,
                     cardBtnColor: document.getElementById('color-card-btn').value,
                     salonName: document.getElementById('salon-name').value,
-                    whatsappLink: document.getElementById('whatsapp-link').value
+                    heroSubtitle: document.getElementById('hero-subtitle').value,
+                    heroTitle1: document.getElementById('hero-title1').value,
+                    heroTitle2: document.getElementById('hero-title2').value,
+                    heroDescription: document.getElementById('hero-description').value,
+                    whatsappLink: document.getElementById('whatsapp-link').value,
+                    contactInstagram: document.getElementById('instagram-link').value
                 };
-                storageManager.saveSettings(settings);
-                window.DirtyState.main = false;
-                uiManager.applyTheme();
-                uiManager.showToast('Aparência atualizada com sucesso!');
-                this._localState.heroImageBase64 = '';
+
+                const success = await storageManager.saveSettings(settings);
+
+                if (success) {
+                    window.DirtyState.main = false;
+                    uiManager.applyTheme();
+                    uiManager.showToast('Aparência atualizada com sucesso no site!');
+                    this._localState.heroImageBase64 = '';
+                    this._localState.logoImageBase64 = '';
+                }
+
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = originalText;
             });
 
             // IntersectionObserver: Anima o botão Salvar se estiver 'Sujo' ao entrar na tela
@@ -948,14 +1010,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
             newBtnCancel.addEventListener('click', hideModal);
 
-            newBtnConfirm.addEventListener('click', () => {
+            newBtnConfirm.addEventListener('click', async () => {
                 hideModal();
                 let items = storageManager.getPortfolio();
                 items = items.filter(i => i.id !== id);
-                storageManager.set(storageManager.keys.portfolio, items);
-                this.updateFilterOptions();
-                this.renderTable(document.getElementById('portfolio-search')?.value || '');
-                uiManager.showToast('Cartão excluído.', 'success');
+
+                const success = await storageManager.savePortfolio(items);
+                if (success) {
+                    this.updateFilterOptions();
+                    this.renderTable(document.getElementById('portfolio-search')?.value || '');
+                    uiManager.showToast('Cartão excluído.', 'success');
+                }
             });
         },
 
@@ -963,7 +1028,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const submitBtn = document.querySelector('#portfolio-form button[type="submit"]');
             submitBtn.disabled = true;
-            submitBtn.innerHTML = 'Salvando...';
+            submitBtn.innerHTML = '<span class="animate-pulse">Salvando e Fazendo Upload...</span>';
 
             const items = storageManager.getPortfolio();
             const title = document.getElementById('card-title').value;
@@ -973,8 +1038,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 category = document.getElementById('card-category-new').value.trim();
             }
 
-            // Determina a imagem final (base64 via upload ou URL manual)
+            // Process image: if base64 (from cropper or upload), send to server first
             let finalImage = this._localState.currentImageBase64 || document.getElementById('card-image').value;
+
+            if (finalImage && finalImage.startsWith('data:image')) {
+                try {
+                    const token = sessionStorage.getItem('adminToken') || '';
+                    const res = await fetch('/api/upload', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({ image: finalImage })
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data.filepath) finalImage = data.filepath;
+                    } else {
+                        throw new Error('Upload error');
+                    }
+                } catch (e) {
+                    console.error("Erro upload portfolio:", e);
+                    uiManager.showToast('Falha no upload da imagem.', 'error');
+                }
+            }
+
             if (!finalImage && this._localState.editingId) {
                 // Mantém a antiga se não editou
                 finalImage = items.find(i => i.id === this._localState.editingId).image;
@@ -997,12 +1086,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 items.unshift(newItem); // Coloca no topo
             }
 
-            storageManager.set(storageManager.keys.portfolio, items);
-            this.updateFilterOptions();
-            this.renderTable(document.getElementById('portfolio-search')?.value || '');
-            window.DirtyState.activeModal = null;
-            this.closeModal();
-            uiManager.showToast('Cartão salvo com sucesso!');
+            const success = await storageManager.savePortfolio(items);
+            if (success) {
+                this.updateFilterOptions();
+                this.renderTable(document.getElementById('portfolio-search')?.value || '');
+                window.DirtyState.activeModal = null;
+                this.closeModal();
+                uiManager.showToast('Cartão salvo permanentemente!');
+            }
 
             submitBtn.disabled = false;
             submitBtn.innerHTML = 'Salvar Cartão';
@@ -1133,14 +1224,523 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // Expor globalmente para os botões inline na tabela
             window.PortfolioManager = this;
+        }
+    };
+
+    // --- Módulo de Gerenciamento de Profissionais ---
+    const ProfessionalsManager = {
+        _localState: {
+            currentImageBase64: '',
+            editingId: null
+        },
+
+        init() {
+            this.renderTable();
+            this.bindEvents();
+        },
+
+        renderTable() {
+            const tbody = document.getElementById('professionals-table-body');
+            const data = storageManager.getProfessionals();
+
+            if (data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-stone-400">Nenhum profissional cadastrado.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = data.map(item => `
+                <tr class="border-b border-rose-50 hover:bg-rose-50/50 transition-colors">
+                    <td class="py-3 pr-4">
+                         <img src="${item.image || 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='}" class="w-16 h-16 xl:w-24 xl:h-24 aspect-square rounded-full overflow-hidden object-cover border-2 border-rose-200 shadow-sm transition-all duration-300" alt="Thumb">
+                    </td>
+                    <td class="py-3 px-4 font-medium xl:text-lg transition-all duration-300">${item.name}</td>
+                    <td class="py-3 px-4 xl:text-lg transition-all duration-300">${item.role}</td>
+                    <td class="py-3 pl-4">
+                        <div class="flex flex-col md:flex-row justify-end items-end md:items-center gap-2 md:gap-3 w-full">
+                            <button onclick="window.ProfessionalsManager.editCard(${item.id})" class="px-5 py-2.5 text-sm xl:text-base font-bold uppercase tracking-wide text-stone-600 bg-stone-100/80 hover:bg-stone-200 border border-stone-200 rounded-xl transition-all shadow hover:shadow-md hover:-translate-y-0.5 active:scale-95 w-full md:w-auto">Editar</button>
+                            <button onclick="window.ProfessionalsManager.deleteCard(${item.id})" class="px-5 py-2.5 text-sm xl:text-base font-bold uppercase tracking-wide text-white bg-rose-400 hover:bg-rose-500 rounded-xl shadow hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer active:scale-95 w-full md:w-auto">Excluir</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        },
+
+        openModal(item = null) {
+            const modal = document.getElementById('professional-modal');
+            const titleEl = document.getElementById('professional-modal-title');
+            const previewEl = document.getElementById('professional-image-preview');
+            this._localState.currentImageBase64 = '';
+
+            if (item) {
+                titleEl.textContent = 'Editar Membro';
+                this._localState.editingId = item.id;
+                document.getElementById('professional-name').value = item.name;
+                document.getElementById('professional-role').value = item.role;
+                document.getElementById('professional-desc').value = item.description;
+                document.getElementById('professional-instagram').value = item.instagram || '';
+                document.getElementById('professional-image').value = item.image || '';
+                previewEl.src = item.image || 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+
+                // Evitar bugs visuais do hover button placeholder
+                document.querySelector('label[for="professional-image-file"]').innerHTML = 'Trocar Foto';
+            } else {
+                titleEl.textContent = 'Novo Membro';
+                this._localState.editingId = null;
+                document.getElementById('professional-form').reset();
+                previewEl.src = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+                document.querySelector('label[for="professional-image-file"]').innerHTML = 'Upload de Foto';
+            }
+            modal.classList.remove('hidden');
+        },
+
+        closeModal() {
+            document.getElementById('professional-modal').classList.add('hidden');
+        },
+
+        editCard(id) {
+            const items = storageManager.getProfessionals();
+            const item = items.find(i => i.id === id);
+            if (item) this.openModal(item);
+        },
+
+        deleteCard(id) {
+            const modal = document.getElementById('custom-confirm-modal-dynamic');
+            const box = document.getElementById('custom-confirm-box-dynamic');
+            const btnConfirm = document.getElementById('custom-confirm-ok-dynamic');
+            const btnCancel = document.getElementById('custom-confirm-cancel-dynamic');
+            document.getElementById('custom-confirm-title').textContent = 'Excluir Membro';
+            document.getElementById('custom-confirm-message').textContent = 'Esta ação não pode ser desfeita.';
+
+            const newBtnConfirm = btnConfirm.cloneNode(true);
+            btnConfirm.parentNode.replaceChild(newBtnConfirm, btnConfirm);
+            const newBtnCancel = btnCancel.cloneNode(true);
+            btnCancel.parentNode.replaceChild(newBtnCancel, btnCancel);
+
+            const hideModal = () => {
+                modal.classList.add('opacity-0');
+                box.classList.add('scale-95');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            };
+
+            modal.classList.remove('hidden');
+            void modal.offsetWidth;
+            modal.classList.remove('opacity-0');
+            box.classList.remove('scale-95');
+
+            newBtnCancel.addEventListener('click', hideModal);
+            newBtnConfirm.addEventListener('click', async () => {
+                hideModal();
+                let items = storageManager.getProfessionals();
+                items = items.filter(i => i.id !== id);
+                const success = await storageManager.saveProfessionals(items);
+                if (success) {
+                    this.renderTable();
+                    uiManager.showToast('Membro excluído.', 'success');
+                }
+            });
+        },
+
+        async saveCard(e) {
+            e.preventDefault();
+            const submitBtn = document.querySelector('#professional-form button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="animate-pulse">Salvando...</span>';
+
+            const items = storageManager.getProfessionals();
+            const name = document.getElementById('professional-name').value;
+            const role = document.getElementById('professional-role').value;
+            const desc = document.getElementById('professional-desc').value;
+            const instagram = document.getElementById('professional-instagram').value;
+
+            let finalImage = this._localState.currentImageBase64 || document.getElementById('professional-image').value;
+
+            if (finalImage && finalImage.startsWith('data:image')) {
+                try {
+                    const token = sessionStorage.getItem('adminToken') || '';
+                    const res = await fetch('/api/upload', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                        body: JSON.stringify({ image: finalImage })
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data.filepath) finalImage = data.filepath;
+                    }
+                } catch (e) {
+                    console.error("Erro upload professional:", e);
+                    uiManager.showToast('Falha no upload da imagem.', 'error');
+                }
+            }
+
+            if (!finalImage && this._localState.editingId) {
+                finalImage = items.find(i => i.id === this._localState.editingId).image;
+            } else if (!finalImage) {
+                finalImage = './assets/foto3.jpg';
+            }
+
+            const newItem = {
+                id: this._localState.editingId || Date.now(),
+                name, role, description: desc, instagram, image: finalImage
+            };
+
+            if (this._localState.editingId) {
+                const index = items.findIndex(i => i.id === this._localState.editingId);
+                if (index > -1) items[index] = newItem;
+            } else {
+                items.push(newItem);
+            }
+
+            const success = await storageManager.saveProfessionals(items);
+            if (success) {
+                this.renderTable();
+                this.closeModal();
+                uiManager.showToast('Perfil salvo com sucesso!');
+            }
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Gravar Perfil';
+        },
+
+        bindEvents() {
+            document.getElementById('add-professional-btn')?.addEventListener('click', () => {
+                this.openModal();
+            });
+            document.getElementById('close-professional-modal')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.closeModal();
+            });
+            document.getElementById('professional-modal')?.addEventListener('click', (e) => {
+                if (e.target === document.getElementById('professional-modal')) this.closeModal();
+            });
+
+            document.getElementById('professional-form')?.addEventListener('submit', (e) => this.saveCard(e));
+
+            const fileInput = document.getElementById('professional-image-file');
+            fileInput?.addEventListener('change', async (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    try {
+                        const base64 = await imageOptimizer.process(file);
+                        this._localState.currentImageBase64 = base64;
+                        document.getElementById('professional-image-preview').src = base64;
+                    } catch (err) {
+                        uiManager.showToast('Erro ao processar imagem.', 'error');
+                    }
+                }
+            });
+
+            window.ProfessionalsManager = this;
+        }
+    };
+
+    // --- Módulo de Gerenciamento de Depoimentos ---
+    const ReviewsManager = {
+        _localState: {
+            editingId: null
+        },
+
+        init() {
+            this.renderTable();
+            this.bindEvents();
+        },
+
+        renderTable() {
+            const tbody = document.getElementById('reviews-table-body');
+            const data = storageManager.getReviews();
+
+            if (data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-stone-400">Nenhum depoimento cadastrado.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = data.map(item => `
+                <tr class="border-b border-rose-50 hover:bg-rose-50/50 transition-colors">
+                    <td class="py-3 px-4 font-medium xl:text-lg transition-all duration-300 w-1/4">${item.name}</td>
+                    <td class="py-3 px-4 text-sm xl:text-base text-stone-500 italic truncate max-w-[200px] xl:max-w-md">"${item.text}"</td>
+                    <td class="py-3 px-4 text-center text-rose-400 font-bold xl:text-lg">${item.rating}</td>
+                    <td class="py-3 pl-4">
+                        <div class="flex flex-col md:flex-row justify-end items-end md:items-center gap-2 md:gap-3 w-full">
+                            <button onclick="window.ReviewsManager.editCard(${item.id})" class="px-5 py-2.5 text-sm xl:text-base font-bold uppercase tracking-wide text-stone-600 bg-stone-100/80 hover:bg-stone-200 border border-stone-200 rounded-xl transition-all shadow hover:shadow-md hover:-translate-y-0.5 active:scale-95 w-full md:w-auto">Editar</button>
+                            <button onclick="window.ReviewsManager.deleteCard(${item.id})" class="px-5 py-2.5 text-sm xl:text-base font-bold uppercase tracking-wide text-white bg-rose-400 hover:bg-rose-500 rounded-xl shadow hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer active:scale-95 w-full md:w-auto">Excluir</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        },
+
+        openModal(item = null) {
+            const modal = document.getElementById('review-modal');
+            const titleEl = document.getElementById('review-modal-title');
+
+            if (item) {
+                titleEl.textContent = 'Editar Depoimento';
+                this._localState.editingId = item.id;
+                document.getElementById('review-name').value = item.name;
+                document.getElementById('review-text').value = item.text;
+                document.getElementById('review-rating').value = item.rating;
+            } else {
+                titleEl.textContent = 'Novo Depoimento';
+                this._localState.editingId = null;
+                document.getElementById('review-form').reset();
+            }
+            modal.classList.remove('hidden');
+        },
+
+        closeModal() {
+            document.getElementById('review-modal').classList.add('hidden');
+        },
+
+        editCard(id) {
+            const items = storageManager.getReviews();
+            const item = items.find(i => i.id === id);
+            if (item) this.openModal(item);
+        },
+
+        deleteCard(id) {
+            const modal = document.getElementById('custom-confirm-modal-dynamic');
+            const box = document.getElementById('custom-confirm-box-dynamic');
+            const btnConfirm = document.getElementById('custom-confirm-ok-dynamic');
+            const btnCancel = document.getElementById('custom-confirm-cancel-dynamic');
+            document.getElementById('custom-confirm-title').textContent = 'Excluir Depoimento';
+            document.getElementById('custom-confirm-message').textContent = 'Esta ação apaga este depoimento definitivamente.';
+
+            const newBtnConfirm = btnConfirm.cloneNode(true);
+            btnConfirm.parentNode.replaceChild(newBtnConfirm, btnConfirm);
+            const newBtnCancel = btnCancel.cloneNode(true);
+            btnCancel.parentNode.replaceChild(newBtnCancel, btnCancel);
+
+            const hideModal = () => {
+                modal.classList.add('opacity-0');
+                box.classList.add('scale-95');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            };
+
+            modal.classList.remove('hidden');
+            void modal.offsetWidth;
+            modal.classList.remove('opacity-0');
+            box.classList.remove('scale-95');
+
+            newBtnCancel.addEventListener('click', hideModal);
+            newBtnConfirm.addEventListener('click', async () => {
+                hideModal();
+                let items = storageManager.getReviews();
+                items = items.filter(i => i.id !== id);
+                const success = await storageManager.saveReviews(items);
+                if (success) {
+                    this.renderTable();
+                    uiManager.showToast('Depoimento excluído.', 'success');
+                }
+            });
+        },
+
+        async saveCard(e) {
+            e.preventDefault();
+            const submitBtn = document.querySelector('#review-form button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="animate-pulse">Publicando...</span>';
+
+            const items = storageManager.getReviews();
+            const name = document.getElementById('review-name').value;
+            const text = document.getElementById('review-text').value;
+            const rating = parseFloat(document.getElementById('review-rating').value);
+
+            const newItem = {
+                id: this._localState.editingId || Date.now(),
+                name, text, rating
+            };
+
+            if (this._localState.editingId) {
+                const index = items.findIndex(i => i.id === this._localState.editingId);
+                if (index > -1) items[index] = newItem;
+            } else {
+                items.push(newItem);
+            }
+
+            const success = await storageManager.saveReviews(items);
+            if (success) {
+                this.renderTable();
+                this.closeModal();
+                uiManager.showToast('Depoimento salvo com sucesso!');
+            }
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Publicar Depoimento';
+        },
+
+        bindEvents() {
+            document.getElementById('add-review-btn')?.addEventListener('click', () => {
+                this.openModal();
+            });
+            document.getElementById('close-review-modal')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.closeModal();
+            });
+            document.getElementById('review-modal')?.addEventListener('click', (e) => {
+                if (e.target === document.getElementById('review-modal')) this.closeModal();
+            });
+
+            document.getElementById('review-form')?.addEventListener('submit', (e) => this.saveCard(e));
+
+            window.ReviewsManager = this;
+        }
+    };
+
+    const UnitsManager = {
+        _localState: {
+            editingId: null
+        },
+
+        init() {
+            this.renderTable();
+            this.bindEvents();
+        },
+
+        renderTable() {
+            const tbody = document.getElementById('units-table-body');
+            const data = storageManager.getUnits();
+
+            if (!data || data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-stone-400">Nenhuma unidade cadastrada.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = data.map(item => `
+                <tr class="border-b border-rose-50 hover:bg-rose-50/50 transition-colors">
+                    <td class="py-3 px-4 font-bold text-stone-800 xl:text-lg">${item.name}</td>
+                    <td class="py-3 px-4 text-sm xl:text-base text-stone-500 max-w-[200px] truncate"><pre class="font-sans m-0">${item.hours}</pre></td>
+                    <td class="py-3 px-4 text-stone-600 xl:text-lg">${item.phone}</td>
+                    <td class="py-3 pl-4">
+                        <div class="flex flex-col md:flex-row justify-end items-end md:items-center gap-2 md:gap-3 w-full">
+                            <button onclick="window.UnitsManager.editCard(${item.id})" class="px-5 py-2.5 text-sm xl:text-base font-bold uppercase tracking-wide text-stone-600 bg-stone-100/80 hover:bg-stone-200 border border-stone-200 rounded-xl transition-all shadow hover:shadow-md hover:-translate-y-0.5 active:scale-95 w-full md:w-auto">Editar</button>
+                            <button onclick="window.UnitsManager.deleteCard(${item.id})" class="px-5 py-2.5 text-sm xl:text-base font-bold uppercase tracking-wide text-white bg-rose-400 hover:bg-rose-500 rounded-xl shadow hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer active:scale-95 w-full md:w-auto">Excluir</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        },
+
+        openModal(item = null) {
+            const modal = document.getElementById('unit-modal');
+            const titleEl = document.getElementById('unit-modal-title');
+
+            if (item) {
+                titleEl.textContent = 'Editar Unidade';
+                this._localState.editingId = item.id;
+                document.getElementById('unit-name').value = item.name;
+                document.getElementById('unit-address').value = item.address;
+                document.getElementById('unit-hours').value = item.hours;
+                document.getElementById('unit-phone').value = item.phone;
+            } else {
+                titleEl.textContent = 'Nova Unidade';
+                this._localState.editingId = null;
+                document.getElementById('unit-form').reset();
+            }
+            modal.classList.remove('hidden');
+        },
+
+        closeModal() {
+            document.getElementById('unit-modal').classList.add('hidden');
+        },
+
+        editCard(id) {
+            const items = storageManager.getUnits();
+            const item = items.find(i => i.id === id);
+            if (item) this.openModal(item);
+        },
+
+        deleteCard(id) {
+            const modal = document.getElementById('custom-confirm-modal-dynamic');
+            const box = document.getElementById('custom-confirm-box-dynamic');
+            const btnConfirm = document.getElementById('custom-confirm-ok-dynamic');
+            const btnCancel = document.getElementById('custom-confirm-cancel-dynamic');
+            document.getElementById('custom-confirm-title').textContent = 'Excluir Unidade';
+            document.getElementById('custom-confirm-message').textContent = 'Você está excluindo a localização de uma unidade do seu site. Confirmar?';
+
+            const newBtnConfirm = btnConfirm.cloneNode(true);
+            btnConfirm.parentNode.replaceChild(newBtnConfirm, btnConfirm);
+            const newBtnCancel = btnCancel.cloneNode(true);
+            btnCancel.parentNode.replaceChild(newBtnCancel, btnCancel);
+
+            const hideModal = () => {
+                modal.classList.add('opacity-0');
+                box.classList.add('scale-95');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            };
+
+            modal.classList.remove('hidden');
+            void modal.offsetWidth;
+            modal.classList.remove('opacity-0');
+            box.classList.remove('scale-95');
+
+            newBtnCancel.addEventListener('click', hideModal);
+            newBtnConfirm.addEventListener('click', async () => {
+                hideModal();
+                let items = storageManager.getUnits();
+                items = items.filter(i => i.id !== id);
+                const success = await storageManager.saveUnits(items);
+                if (success) {
+                    this.renderTable();
+                    uiManager.showToast('Unidade excluída.', 'success');
+                }
+            });
+        },
+
+        async saveCard(e) {
+            e.preventDefault();
+            const submitBtn = document.querySelector('#unit-form button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="animate-pulse">Salvando...</span>';
+
+            const items = storageManager.getUnits() || [];
+            const name = document.getElementById('unit-name').value;
+            const address = document.getElementById('unit-address').value;
+            const hours = document.getElementById('unit-hours').value;
+            const phone = document.getElementById('unit-phone').value;
+
+            const newItem = {
+                id: this._localState.editingId || Date.now(),
+                name, address, hours, phone
+            };
+
+            if (this._localState.editingId) {
+                const index = items.findIndex(i => i.id === this._localState.editingId);
+                if (index > -1) items[index] = newItem;
+            } else {
+                items.push(newItem);
+            }
+
+            const success = await storageManager.saveUnits(items);
+            if (success) {
+                this.renderTable();
+                this.closeModal();
+                uiManager.showToast('Unidade salva com sucesso!');
+            }
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Salvar Unidade';
+        },
+
+        bindEvents() {
+            document.getElementById('add-unit-btn')?.addEventListener('click', () => {
+                this.openModal();
+            });
+            document.getElementById('close-unit-modal')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.closeModal();
+            });
+            document.getElementById('unit-modal')?.addEventListener('click', (e) => {
+                if (e.target === document.getElementById('unit-modal')) this.closeModal();
+            });
+            document.getElementById('unit-form')?.addEventListener('submit', (e) => this.saveCard(e));
+
+            window.UnitsManager = this;
         }
     };
 
     // Expor globalmente para os botões reset
     window.AdminApp = AdminApp;
 
-    // Iniciar Autenticação
+    // Iniciar Autenticação e Managers
     Auth.init();
+    ProfessionalsManager.init();
+    ReviewsManager.init();
+    UnitsManager.init();
 });

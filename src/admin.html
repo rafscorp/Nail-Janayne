@@ -13,7 +13,7 @@
     <!-- Cropper.js CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
 
-    <link rel="stylesheet" href="../dist/output.css">
+    <link rel="stylesheet" href="/dist/output.css">
 </head>
 
 <body class="bg-rose-50 text-stone-800 font-sans antialiased">
@@ -126,50 +126,118 @@
                                 ao acessar o site.</p>
                         </div>
                         <div class="p-8 md:p-10">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+                            <!-- Logos e Imagens -->
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
                                 <div>
-                                    <label for="salon-name"
-                                        class="block text-sm font-bold uppercase text-stone-500 mb-3">Nome do
-                                        Salão</label>
-                                    <input type="text" id="salon-name" placeholder="Janayne Studio"
-                                        class="w-full bg-stone-50 border border-stone-200 rounded-xl px-5 py-4 text-base text-stone-800 focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent transition-all">
+                                    <label class="block text-sm font-bold uppercase text-stone-500 mb-4">Logo
+                                        Principal</label>
+                                    <div class="flex flex-col sm:flex-row items-center gap-6">
+                                        <div
+                                            class="w-32 h-24 rounded-lg overflow-hidden border border-stone-200 bg-stone-900 shrink-0 shadow-sm relative group p-2">
+                                            <img id="logo-preview" src="assets/janayneLogo.png"
+                                                class="w-full h-full object-contain brightness-0 invert" alt="Logo">
+                                        </div>
+                                        <label for="logo-file" class="flex-1 cursor-pointer w-full h-24">
+                                            <div
+                                                class="w-full h-full border-2 border-dashed border-rose-300 rounded-xl text-sm text-stone-600 hover:bg-rose-50 hover:border-rose-400 transition-all flex flex-col items-center justify-center gap-1 group">
+                                                <svg class="w-6 h-6 text-rose-400 group-hover:scale-110 transition-transform"
+                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="1.5"
+                                                        d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z">
+                                                    </path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                </svg>
+                                                <span class="font-medium text-rose-600">Trocar Logo</span>
+                                            </div>
+                                            <input id="logo-file" type="file" class="hidden" accept="image/*">
+                                        </label>
+                                    </div>
                                 </div>
                                 <div>
-                                    <label for="whatsapp-link"
-                                        class="block text-sm font-bold uppercase text-stone-500 mb-3">Número do
-                                        WhatsApp</label>
-                                    <input type="text" inputmode="numeric" pattern="[0-9]*" id="whatsapp-link"
-                                        placeholder="Ex: 5561982412536"
-                                        class="w-full bg-stone-50 border border-stone-200 rounded-xl px-5 py-4 text-base text-stone-800 focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent transition-all"
-                                        oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                    <label class="block text-sm font-bold uppercase text-stone-500 mb-4">Foto Principal
+                                        de Fundo (Hero Image)</label>
+                                    <div class="flex flex-col sm:flex-row items-center gap-6">
+                                        <div
+                                            class="w-32 h-24 rounded-lg overflow-hidden border border-stone-200 bg-stone-50 shrink-0 shadow-sm relative group">
+                                            <img id="hero-preview" src="assets/foto1.jpg"
+                                                class="w-full h-full object-cover" alt="Hero">
+                                        </div>
+                                        <label for="hero-file" class="flex-1 cursor-pointer w-full h-24">
+                                            <div
+                                                class="w-full h-full border-2 border-dashed border-rose-300 rounded-xl text-sm text-stone-600 hover:bg-rose-50 hover:border-rose-400 transition-all flex flex-col items-center justify-center gap-1 group">
+                                                <svg class="w-6 h-6 text-rose-400 group-hover:scale-110 transition-transform"
+                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="1.5"
+                                                        d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z">
+                                                    </path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                </svg>
+                                                <span class="font-medium text-rose-600">Trocar Fundo</span>
+                                            </div>
+                                            <input id="hero-file" type="file" class="hidden" accept="image/*">
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div>
-                                <label class="block text-sm font-bold uppercase text-stone-500 mb-4">Foto Principal de
-                                    Fundo (Hero Image)</label>
-                                <div class="flex flex-col sm:flex-row items-center gap-6">
-                                    <div
-                                        class="w-32 h-24 rounded-lg overflow-hidden border border-stone-200 bg-stone-50 shrink-0 shadow-sm relative group">
-                                        <img id="hero-preview"
-                                            src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
-                                            class="w-full h-full object-cover" alt="Atual">
-                                    </div>
-                                    <label for="hero-file" class="flex-1 cursor-pointer w-full h-24">
-                                        <div
-                                            class="w-full h-full border-2 border-dashed border-rose-300 rounded-xl text-sm text-stone-600 hover:bg-rose-50 hover:border-rose-400 transition-all flex flex-col items-center justify-center gap-1 group">
-                                            <svg class="w-6 h-6 text-rose-400 group-hover:scale-110 transition-transform"
-                                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                    d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z">
-                                                </path>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                    d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                            </svg>
-                                            <span class="font-medium text-rose-600">Trocar Imagem</span>
-                                        </div>
-                                        <input id="hero-file" type="file" class="hidden" accept="image/*">
-                                    </label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+                                <div>
+                                    <label for="salon-name"
+                                        class="block text-sm font-bold uppercase text-stone-500 mb-3">Nome do Salão
+                                        (Meta Title)</label>
+                                    <input type="text" id="salon-name"
+                                        class="w-full bg-stone-50 border border-stone-200 rounded-xl px-5 py-4 text-base text-stone-800 focus:outline-none focus:ring-2 focus:ring-rose-300 transition-all">
+                                </div>
+                                <div>
+                                    <label for="hero-subtitle"
+                                        class="block text-sm font-bold uppercase text-stone-500 mb-3">Subtítulo (Ex:
+                                        Nail Designer)</label>
+                                    <input type="text" id="hero-subtitle"
+                                        class="w-full bg-stone-50 border border-stone-200 rounded-xl px-5 py-4 text-base text-stone-800 focus:outline-none focus:ring-2 focus:ring-rose-300 transition-all">
+                                </div>
+                                <div>
+                                    <label for="hero-title1"
+                                        class="block text-sm font-bold uppercase text-stone-500 mb-3">Título Principal -
+                                        Parte 1</label>
+                                    <input type="text" id="hero-title1"
+                                        class="w-full bg-stone-50 border border-stone-200 rounded-xl px-5 py-4 text-base text-stone-800 focus:outline-none focus:ring-2 focus:ring-rose-300 transition-all">
+                                </div>
+                                <div>
+                                    <label for="hero-title2"
+                                        class="block text-sm font-bold uppercase text-stone-500 mb-3">Título Principal -
+                                        Parte 2 (Linha 2)</label>
+                                    <input type="text" id="hero-title2"
+                                        class="w-full bg-stone-50 border border-stone-200 rounded-xl px-5 py-4 text-base text-stone-800 focus:outline-none focus:ring-2 focus:ring-rose-300 transition-all">
+                                </div>
+                            </div>
+
+                            <div class="mb-10">
+                                <label for="hero-description"
+                                    class="block text-sm font-bold uppercase text-stone-500 mb-3">Descrição
+                                    Principal</label>
+                                <textarea id="hero-description" rows="2"
+                                    class="w-full bg-stone-50 border border-stone-200 rounded-xl px-5 py-4 text-base text-stone-800 focus:outline-none focus:ring-2 focus:ring-rose-300 transition-all"></textarea>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div>
+                                    <label for="whatsapp-link"
+                                        class="block text-sm font-bold uppercase text-stone-500 mb-3">WhatsApp Global
+                                        (Somente Números)</label>
+                                    <input type="text" inputmode="numeric" pattern="[0-9]*" id="whatsapp-link"
+                                        class="w-full bg-stone-50 border border-stone-200 rounded-xl px-5 py-4 text-base text-stone-800 focus:outline-none focus:ring-2 focus:ring-rose-300 transition-all"
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                </div>
+                                <div>
+                                    <label for="instagram-link"
+                                        class="block text-sm font-bold uppercase text-stone-500 mb-3">Instagram
+                                        Link</label>
+                                    <input type="text" id="instagram-link"
+                                        class="w-full bg-stone-50 border border-stone-200 rounded-xl px-5 py-4 text-base text-stone-800 focus:outline-none focus:ring-2 focus:ring-rose-300 transition-all">
                                 </div>
                             </div>
                         </div>
@@ -475,6 +543,152 @@
                 </div>
             </section>
 
+            <!-- Seção de Gerenciamento de Profissionais -->
+            <section
+                class="bg-white rounded-[2rem] xl:rounded-[3rem] shadow-sm border border-rose-100 p-10 md:p-14 w-full max-w-4xl xl:max-w-6xl mx-auto transition-all duration-300 mt-12">
+                <div
+                    class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8 border-b border-rose-50 pb-6">
+                    <h3 class="font-sans text-3xl md:text-4xl text-stone-800 shrink-0">Gerenciar Equipe</h3>
+                    <div
+                        class="flex flex-col sm:flex-row items-stretch sm:items-center justify-start lg:justify-end gap-4 w-full lg:w-auto">
+                        <button id="add-professional-btn"
+                            class="w-full sm:w-auto bg-rose-400 hover:bg-rose-500 text-white px-6 py-3 rounded-xl text-base font-medium transition-colors shrink-0 shadow-sm">+
+                            Novo Membro</button>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr
+                                class="text-sm xl:text-base font-bold text-stone-500 uppercase border-b border-rose-100 transition-all duration-300">
+                                <th class="pb-4 pr-5">Foto</th>
+                                <th class="pb-4 px-5">Nome</th>
+                                <th class="pb-4 px-5">Função</th>
+                                <th class="pb-4 px-5 text-right">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="professionals-table-body" class="text-sm text-stone-700">
+                            <!-- Injetado via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Seção de Gerenciamento de Depoimentos -->
+            <section
+                class="bg-white rounded-[2rem] xl:rounded-[3rem] shadow-sm border border-rose-100 p-10 md:p-14 w-full max-w-4xl xl:max-w-6xl mx-auto transition-all duration-300 mt-12">
+                <div
+                    class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8 border-b border-rose-50 pb-6">
+                    <h3 class="font-sans text-3xl md:text-4xl text-stone-800 shrink-0">Depoimentos Públicos</h3>
+                    <div
+                        class="flex flex-col sm:flex-row items-stretch sm:items-center justify-start lg:justify-end gap-4 w-full lg:w-auto">
+                        <button id="add-review-btn"
+                            class="w-full sm:w-auto bg-rose-400 hover:bg-rose-500 text-white px-6 py-3 rounded-xl text-base font-medium transition-colors shrink-0 shadow-sm">+
+                            Novo Depoimento</button>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr
+                                class="text-sm xl:text-base font-bold text-stone-500 uppercase border-b border-rose-100 transition-all duration-300">
+                                <th class="pb-4 pr-5">Cliente</th>
+                                <th class="pb-4 px-5">Depoimento</th>
+                                <th class="pb-4 px-5 text-center">Nota</th>
+                                <th class="pb-4 px-5 text-right">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reviews-table-body" class="text-sm text-stone-700">
+                            <!-- Injetado via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Seção de Gerenciamento de Unidades -->
+            <section
+                class="bg-white rounded-[2rem] xl:rounded-[3rem] shadow-sm border border-rose-100 p-10 md:p-14 w-full max-w-4xl xl:max-w-6xl mx-auto transition-all duration-300 mt-12">
+                <div
+                    class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8 border-b border-rose-50 pb-6">
+                    <h3 class="font-sans text-3xl md:text-4xl text-stone-800 shrink-0">Gerenciar Unidades & Contatos
+                    </h3>
+                    <div
+                        class="flex flex-col sm:flex-row items-stretch sm:items-center justify-start lg:justify-end gap-4 w-full lg:w-auto">
+                        <button id="add-unit-btn"
+                            class="w-full sm:w-auto bg-rose-400 hover:bg-rose-500 text-white px-6 py-3 rounded-xl text-base font-medium transition-colors shrink-0 shadow-sm">+
+                            Nova Unidade</button>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr
+                                class="text-sm xl:text-base font-bold text-stone-500 uppercase border-b border-rose-100 transition-all duration-300">
+                                <th class="pb-4 pr-5">Nome</th>
+                                <th class="pb-4 px-5">Horários</th>
+                                <th class="pb-4 px-5">Telefone</th>
+                                <th class="pb-4 px-5 text-right">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="units-table-body" class="text-sm text-stone-700">
+                            <!-- Injetado via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <!-- Modal de Edição de Unidades (Injetado) -->
+            <div id="unit-modal"
+                class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 md:p-6 bg-stone-900/60 backdrop-blur-sm">
+                <div
+                    class="bg-white rounded-[2rem] xl:rounded-[3rem] p-6 md:p-10 w-full max-w-lg xl:max-w-3xl shadow-2xl relative transition-all duration-300 max-h-[90vh] overflow-y-auto">
+                    <button id="close-unit-modal" type="button"
+                        class="absolute top-5 right-5 text-stone-400 hover:text-rose-500 transition-transform hover:scale-110">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                    <h3 id="unit-modal-title" class="font-sans text-3xl md:text-4xl text-stone-800 mb-5">Nova Unidade
+                    </h3>
+                    <form id="unit-form" class="space-y-4">
+                        <input type="hidden" id="unit-id">
+
+                        <div>
+                            <label class="block text-sm font-bold uppercase text-stone-500 mb-2">Nome da Unidade</label>
+                            <input type="text" id="unit-name" required placeholder="Ex: Sudoeste"
+                                class="w-full bg-rose-50 border border-rose-200 rounded-xl px-5 py-3 text-base text-stone-800 focus:ring-2 focus:ring-rose-400 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold uppercase text-stone-500 mb-2">Endereço
+                                Completo</label>
+                            <textarea id="unit-address" rows="3" required placeholder="Ex: Shopping Sudoeste..."
+                                class="w-full bg-rose-50 border border-rose-200 rounded-xl px-5 py-3 text-base text-stone-800 focus:ring-2 focus:ring-rose-400 outline-none"></textarea>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-bold uppercase text-stone-500 mb-2">Horários de
+                                    Funcionamento</label>
+                                <textarea id="unit-hours" rows="2" required placeholder="Ex: Seg-Sex: 09:00 - 19:00"
+                                    class="w-full bg-rose-50 border border-rose-200 rounded-xl px-5 py-3 text-base text-stone-800 focus:ring-2 focus:ring-rose-400 outline-none"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold uppercase text-stone-500 mb-2">Telefone da
+                                    Unidade</label>
+                                <input type="text" id="unit-phone" required placeholder="Ex: (61) 98241-2536"
+                                    class="w-full bg-rose-50 border border-rose-200 rounded-xl px-5 py-3 text-base text-stone-800 focus:ring-2 focus:ring-rose-400 outline-none">
+                            </div>
+                        </div>
+
+                        <button type="submit"
+                            class="w-full bg-rose-400 text-white text-lg font-medium py-4 rounded-xl shadow-md hover:bg-rose-500 active:scale-95 transition-all mt-6">Salvar
+                            Unidade</button>
+                    </form>
+                </div>
+            </div>
+
             <!-- Modal de Edição de Portfólio -->
             <div id="portfolio-modal"
                 class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 md:p-6 bg-stone-900/60 backdrop-blur-sm">
@@ -601,6 +815,133 @@
                                 e Descartar</button>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Modal de Edição de Profissionais -->
+            <div id="professional-modal"
+                class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 md:p-6 bg-stone-900/60 backdrop-blur-sm">
+                <div
+                    class="bg-white rounded-[2rem] xl:rounded-[3rem] p-6 md:p-10 w-full max-w-lg xl:max-w-3xl shadow-2xl relative transition-all duration-300 max-h-[90vh] overflow-y-auto">
+                    <button id="close-professional-modal"
+                        class="absolute top-5 right-5 text-stone-400 hover:text-rose-500 transition-transform hover:scale-110">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                    <h3 id="professional-modal-title" class="font-sans text-3xl md:text-4xl text-stone-800 mb-5">Editar
+                        Membro</h3>
+                    <form id="professional-form" class="space-y-4">
+                        <input type="hidden" id="professional-id">
+
+                        <div>
+                            <label class="block text-sm font-bold uppercase text-stone-500 mb-3">Foto de Perfil</label>
+                            <div class="flex flex-col sm:flex-row items-start gap-5">
+                                <div
+                                    class="relative w-32 h-32 xl:w-56 xl:h-56 rounded-2xl overflow-hidden border border-rose-200 bg-rose-50 shrink-0 mx-auto sm:mx-0 transition-all duration-300 flex items-center justify-center group">
+                                    <img id="professional-image-preview"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
+                                        class="absolute inset-0 w-full h-full object-cover z-10" alt="Preview">
+                                </div>
+                                <div class="flex-1 w-full">
+                                    <input type="hidden" id="professional-image">
+                                    <label for="professional-image-file"
+                                        class="flex items-center justify-center gap-3 w-full px-5 py-4 border border-rose-200 rounded-xl text-base text-stone-600 hover:bg-rose-50 transition-colors cursor-pointer border-dashed border-2">
+                                        <svg class="w-6 h-6 text-rose-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z">
+                                            </path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        </svg>
+                                        Upload de Foto
+                                    </label>
+                                    <input type="file" id="professional-image-file" accept="image/*" class="hidden">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-bold uppercase text-stone-500 mb-2">Nome</label>
+                                <input type="text" id="professional-name" required
+                                    class="w-full bg-rose-50 border border-rose-200 rounded-xl px-5 py-3 text-base text-stone-800">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold uppercase text-stone-500 mb-2">Especialidade /
+                                    Função</label>
+                                <input type="text" id="professional-role" required placeholder="Ex: Nail Artist"
+                                    class="w-full bg-rose-50 border border-rose-200 rounded-xl px-5 py-3 text-base text-stone-800">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold uppercase text-stone-500 mb-2">Link do Instagram
+                                (Opcional)</label>
+                            <input type="url" id="professional-instagram" placeholder="https://instagram.com/seu.perfil"
+                                class="w-full bg-rose-50 border border-rose-200 rounded-xl px-5 py-3 text-base text-stone-800">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold uppercase text-stone-500 mb-2">Biografia Curta</label>
+                            <textarea id="professional-desc" rows="3" required
+                                class="w-full bg-rose-50 border border-rose-200 rounded-xl px-5 py-3 text-base text-stone-800"></textarea>
+                        </div>
+
+                        <button type="submit"
+                            class="w-full bg-rose-400 text-white text-lg font-medium py-4 rounded-xl shadow-md hover:bg-rose-500 active:scale-95 transition-all mt-6">Gravar
+                            Perfil</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Modal de Edição de Depoimentos -->
+            <div id="review-modal"
+                class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 md:p-6 bg-stone-900/60 backdrop-blur-sm">
+                <div
+                    class="bg-white rounded-[2rem] xl:rounded-[3rem] p-6 md:p-10 w-full max-w-lg shadow-2xl relative transition-all duration-300 max-h-[90vh] overflow-y-auto">
+                    <button id="close-review-modal"
+                        class="absolute top-5 right-5 text-stone-400 hover:text-rose-500 transition-transform hover:scale-110">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                    <h3 id="review-modal-title" class="font-sans text-3xl md:text-4xl text-stone-800 mb-5">Novo
+                        Depoimento</h3>
+                    <form id="review-form" class="space-y-4">
+                        <input type="hidden" id="review-id">
+
+                        <div>
+                            <label class="block text-sm font-bold uppercase text-stone-500 mb-2">Nome do Cliente</label>
+                            <input type="text" id="review-name" required
+                                class="w-full bg-rose-50 border border-rose-200 rounded-xl px-5 py-3 text-base text-stone-800">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold uppercase text-stone-500 mb-2">Estrelas</label>
+                            <select id="review-rating" required
+                                class="w-full bg-rose-50 border border-rose-200 rounded-xl px-5 py-3 text-base text-stone-800 focus:outline-none focus:border-rose-300">
+                                <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+                                <option value="4">⭐⭐⭐⭐ (4)</option>
+                                <option value="4.5">⭐⭐⭐⭐½ (4.5)</option>
+                                <option value="3">⭐⭐⭐ (3)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold uppercase text-stone-500 mb-2">Depoimento</label>
+                            <textarea id="review-text" rows="4" required
+                                placeholder="Escreva a avaliação do cliente aqui..."
+                                class="w-full bg-rose-50 border border-rose-200 rounded-xl px-5 py-3 text-base text-stone-800"></textarea>
+                        </div>
+
+                        <button type="submit"
+                            class="w-full bg-rose-400 text-white text-lg font-medium py-4 rounded-xl shadow-md hover:bg-rose-500 active:scale-95 transition-all mt-6">Publicar
+                            Depoimento</button>
+                    </form>
                 </div>
             </div>
 

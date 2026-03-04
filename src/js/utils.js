@@ -4,64 +4,168 @@
  */
 
 /**
- * Gerencia todo o acesso ao localStorage de forma segura.
+ * Gerencia todo o acesso à API do Backend de forma segura, com cache local.
  */
 class StorageManager {
     constructor() {
-        this.keys = {
-            settings: 'janayneSettings',
-            portfolio: 'janaynePortfolio_v2'
+        this.cache = {
+            settings: {},
+            portfolio: [],
+            professionals: [],
+            reviews: [],
+            units: []
         };
+        this.isLoaded = false;
     }
 
     /**
-     * Popula o localStorage com dados iniciais se estiver vazio.
-     * As imagens agora são apenas para referência e serão substituídas por Base64.
+     * Busca os dados reais do servidor Flask (`/api/data`) no momento do carregamento da página.
      */
-    init() {
-        const defaultPortfolio = [
-            { id: 1, image: 'assets/foto1.jpg', category: 'Nail Art', title: 'Nail Art Minimalista', description: 'Design sofisticado com traços finos e geometria delicada.', btnColor: '#fda4af' },
-            { id: 2, image: 'assets/foto2.jpg', category: 'Alongamento', title: 'Alongamento em Fibra', description: 'Resistência e naturalidade com acabamento premium.', btnColor: '#fda4af' },
-            { id: 3, image: 'assets/foto3.jpg', category: 'Blindagem', title: 'Blindagem Diamante', description: 'Proteção extra para o crescimento saudável das unhas.', btnColor: '#fda4af' },
-            { id: 4, image: 'assets/foto4.jpg', category: 'Nail Art', title: 'Francesinha Moderna', description: 'A clássica elegância reinventada com toques contemporâneos.', btnColor: '#fda4af' },
-            { id: 5, image: 'assets/foto5.jpg', category: 'Pés', title: 'Spa dos Pés', description: 'Renovação completa, hidratação profunda e relaxamento.', btnColor: '#fda4af' },
-            { id: 6, image: 'assets/foto6.jpg', category: 'Esmaltação', title: 'Esmaltação em Gel', description: 'Brilho intenso e durabilidade.', btnColor: '#fda4af' }
-        ];
-
-        // Restore default testing data as requested by user
-        const currentData = this.get(this.keys.portfolio);
-        if (currentData.length === 0 || !currentData[0].image || currentData[0].image === '') {
-            this.set(this.keys.portfolio, defaultPortfolio);
-        } else if (localStorage.getItem('janayne_force_restore') !== 'done') {
-            this.set(this.keys.portfolio, defaultPortfolio);
-            localStorage.setItem('janayne_force_restore', 'done');
-        }
-    }
-
-    get(key) {
+    async init() {
         try {
-            return JSON.parse(localStorage.getItem(key)) || [];
+            const res = await fetch('/api/data');
+            if (res.ok) {
+                const data = await res.json();
+                if (data.settings) this.cache.settings = data.settings;
+                if (data.portfolio) this.cache.portfolio = data.portfolio;
+                if (data.professionals) this.cache.professionals = data.professionals;
+                if (data.reviews) this.cache.reviews = data.reviews;
+                if (data.units) this.cache.units = data.units;
+                this.isLoaded = true;
+                return true;
+            } else {
+                console.error("Falha ao comunicar com a API do servidor.");
+                return false;
+            }
         } catch (e) {
-            console.error(`Erro ao ler a chave ${key} do localStorage:`, e);
-            return [];
+            console.error("Erro fatal de rede ao inicializar o banco de dados:", e);
+            return false;
         }
     }
 
-    set(key, data) {
+    getSettings() {
+        return this.cache.settings;
+    }
+
+    getPortfolio() {
+        return this.cache.portfolio;
+    }
+
+    getProfessionals() {
+        return this.cache.professionals;
+    }
+
+    getReviews() {
+        return this.cache.reviews;
+    }
+
+    getUnits() {
+        return this.cache.units;
+    }
+
+    async saveSettings(settings) {
+        this.cache.settings = settings; // Optimistic UI update
         try {
-            localStorage.setItem(key, JSON.stringify(data));
+            const token = sessionStorage.getItem('adminToken') || '';
+            const res = await fetch('/api/settings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(settings)
+            });
+            if (!res.ok) throw new Error('Erro do servidor');
+            return true;
         } catch (e) {
-            console.error(`Erro ao salvar a chave ${key} no localStorage:`, e);
-            uiManager.showToast('Erro ao salvar dados. O armazenamento pode estar cheio.', 'error');
+            console.error("Falha ao salvar as configurações no servidor:", e);
+            uiManager.showToast('Sem conexão com o servidor. As alterações não foram salvas permanentemente.', 'error');
+            return false;
         }
     }
 
-    getSettings() { return this.get(this.keys.settings); }
+    async savePortfolio(portfolio) {
+        this.cache.portfolio = portfolio; // Optimistic UI update
+        try {
+            const token = sessionStorage.getItem('adminToken') || '';
+            const res = await fetch('/api/portfolio', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(portfolio)
+            });
+            if (!res.ok) throw new Error('Erro do servidor');
+            return true;
+        } catch (e) {
+            console.error("Falha ao salvar o portfólio no servidor:", e);
+            uiManager.showToast('Sem conexão. O portfólio não pôde ser salvo.', 'error');
+            return false;
+        }
+    }
 
-    getPortfolio() { return this.get(this.keys.portfolio); }
+    async saveProfessionals(professionals) {
+        this.cache.professionals = professionals; // Optimistic UI update
+        try {
+            const token = sessionStorage.getItem('adminToken') || '';
+            const res = await fetch('/api/professionals', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(professionals)
+            });
+            if (!res.ok) throw new Error('Erro do servidor');
+            return true;
+        } catch (e) {
+            console.error("Falha ao salvar profissionais no servidor:", e);
+            uiManager.showToast('Erro de conexão ao salvar profissionais.', 'error');
+            return false;
+        }
+    }
 
-    saveSettings(settings) {
-        this.set(this.keys.settings, settings);
+    async saveReviews(reviews) {
+        this.cache.reviews = reviews; // Optimistic UI update
+        try {
+            const token = sessionStorage.getItem('adminToken') || '';
+            const res = await fetch('/api/reviews', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(reviews)
+            });
+            if (!res.ok) throw new Error('Erro do servidor');
+            return true;
+        } catch (e) {
+            console.error("Falha ao salvar depoimentos no servidor:", e);
+            uiManager.showToast('Erro de conexão ao salvar depoimentos.', 'error');
+            return false;
+        }
+    }
+
+    async saveUnits(units) {
+        this.cache.units = units; // Optimistic UI update
+        try {
+            const token = sessionStorage.getItem('adminToken') || '';
+            const res = await fetch('/api/units', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(units)
+            });
+            if (!res.ok) throw new Error('Erro do servidor');
+            return true;
+        } catch (e) {
+            console.error("Falha ao salvar unidades no servidor:", e);
+            uiManager.showToast('Erro de conexão ao salvar unidades.', 'error');
+            return false;
+        }
     }
 }
 
@@ -225,13 +329,24 @@ class UIManager {
     }
 }
 
-// --- Instanciação dos Módulos ---
+// --- Instanciação dos Módulos Globais ---
 const storageManager = new StorageManager();
 const imageOptimizer = new ImageOptimizer();
 const uiManager = new UIManager();
 
-// Aplicar tema imediatamente ao carregar
-document.addEventListener('DOMContentLoaded', () => {
-    storageManager.init(); // Garante que os dados iniciais existam
+// Bootloader Assíncrono da Aplicação
+document.addEventListener('DOMContentLoaded', async () => {
+    // 0. Limpeza crítica: remover todo o lixo do sistema antigo baseado em LocalStorage do navegador do usuário
+    localStorage.removeItem('janaynePortfolio_v2');
+    localStorage.removeItem('janayneSettings');
+    localStorage.removeItem('janayne_force_restore');
+
+    // 1. Atrasa a inicialização da UI até o servidor devolver os dados
+    await storageManager.init();
+
+    // 2. Aplica o Tema imediatamente com os dados mais recentes do Backend
     uiManager.applyTheme();
+
+    // 3. Dispara um evento customizado informando ao index.js e admin.js que o cache está populado e a UI principal pode ser criada
+    document.dispatchEvent(new Event('JanayneDataLoaded'));
 });
