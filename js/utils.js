@@ -23,7 +23,7 @@ class StorageManager {
      */
     async init() {
         try {
-            const res = await fetch('/Nail-Janayne/data/db.json');
+            const res = await fetch('./data/db.json');
             if (res.ok) {
                 const data = await res.json();
                 if (data.settings) this.cache.settings = data.settings;
