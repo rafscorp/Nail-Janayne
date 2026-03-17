@@ -2,9 +2,9 @@
   "name": "janayne-project",
   "version": "1.0.0",
   "scripts": {
-    "start": "tailwindcss -i ./src/styles/input.css -o ./dist/output.css --watch & python3 server.py",
-    "build": "tailwindcss -i ./src/styles/input.css -o ./dist/output.css --minify",
-    "watch": "tailwindcss -i ./src/styles/input.css -o ./dist/output.css --watch"
+    "start": "tailwindcss -i ./styles/input.css -o ./dist/output.css --watch & python3 server.py",
+    "build": "tailwindcss -i ./styles/input.css -o ./dist/output.css --minify",
+    "watch": "tailwindcss -i ./styles/input.css -o ./dist/output.css --watch"
   },
   "devDependencies": {
     "tailwindcss": "^3.4.1"
