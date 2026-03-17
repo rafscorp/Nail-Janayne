@@ -41,7 +41,7 @@ document.addEventListener('JanayneDataLoaded', () => {
         }).join('');
     };
 
-    renderProfessionals();
+    // renderProfessionals();
 
     // ===== Render Hero & Global Links =====
     const renderHeroAndLinks = () => {
@@ -798,8 +798,9 @@ document.addEventListener('JanayneDataLoaded', () => {
             setupChevronAnimation();
         };
 
-        renderFilters();
-        renderGrid();
+        
+        // renderFilters();
+        // renderGrid();
         setupChevronAnimation();
         setupBioCardAnimations();
         setupNavigationGlider();
